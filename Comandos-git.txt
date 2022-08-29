@@ -1,0 +1,47 @@
+1. crear rama:
+
+git branch nombre-rama
+
+2.ver ramas
+
+git branch
+
+3. posiscionarse en otra rama
+
+git checkout nombre-rama
+
+4. borrar rama:
+
+git branch -d nombre-rama
+
+5. crear y cambiar de rama al mismo tiempo
+
+git checkout -b nombre-rama
+
+5. informacion  sobre la rama (cambios x subir, etc)
+
+git status
+
+6.para incluir todos los cambios en la rama
+
+git add . 
+
+7. para agregar mensaje y punto de control al cambio  (obligatorio despues de git add )
+
+git commit -m "mensaje de confirmación"
+
+8. enviar cambios al servidor remoto (despues de git commit)
+
+git push
+
+9.recibir actualizaciones del repositorio remoto y agregar los cambios inmediatamente
+
+git pull
+
+10.deshacer los cambios hechos (el numero es el log del commit)
+
+git revert 3322156
+
+11. fusionar ramas
+
+git merge nombre-rama (de la que me traeré los cambios)
