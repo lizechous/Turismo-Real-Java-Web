@@ -45,3 +45,14 @@ git revert 3322156
 11. fusionar ramas
 
 git merge nombre-rama (de la que me traeré los cambios)
+
+------------------------------------------------------------------------------------
+VERSIONES SEMANTICAS
+
+1.0.0
+
+el ultimo digito se cambia cuando otro proyecto no tiene que modificar nada
+el segundo digito se cambia cuando hay que modificar algo en otro proyecto que tiene relacion con este
+el primero es cuando es un cambio productivo cuando ya todo funciona, un entregable final.
+
+
