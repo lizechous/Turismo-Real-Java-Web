@@ -57,7 +57,7 @@ public class Departamento {
     @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL)
     private List<FotoDepto> fotoDeptoList;
 
-    @ManyToMany(mappedBy = "departamento")
+    @ManyToMany(mappedBy = "departamentoList")
     private List<ServicioDepto> servicioDeptoList;
 
     public String getDireccion() {

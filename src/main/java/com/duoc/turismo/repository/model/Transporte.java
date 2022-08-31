@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TRANSPORTE")
-@PrimaryKeyJoinColumn(referencedColumnName = "id_servicio_extra_FK")
+@PrimaryKeyJoinColumn(name = "id_servicio_extra_FK")
 public class Transporte extends ServicioExtra{
     @Column(name = "modelo", nullable = false, length = 45)
     private String modelo;
