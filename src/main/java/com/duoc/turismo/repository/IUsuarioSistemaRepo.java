@@ -24,7 +24,7 @@ public interface IUsuarioSistemaRepo extends JpaRepository<UsuarioSistema, Integ
 
    // public Optional<UsuarioSistema> findById(Integer id);
 
-    //CUIDADO CON LOS ESPACIOS ENTRE =: Y DESPUES DE ESO
+    //CUIDADO CON LOS ESPACIOS ENTRE =: *********************
 
     @Transactional
     @Modifying

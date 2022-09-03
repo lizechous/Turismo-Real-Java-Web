@@ -14,9 +14,6 @@ public class ServicioDepto {
     @Column(name = "tipo_servicio_depto", nullable = false, length = 45)
     private String tipoServicioDepto;
 
-    @Column(name = "descripcion_servicio", nullable = false, length = 100)
-    private String descripcionServicio;
-
     @ManyToMany
     @JoinTable(name = "DETALLE_SERVICIO_DEPTO",
             joinColumns = @JoinColumn(name = "id_servicio_depto_FK"),
@@ -33,14 +30,6 @@ public class ServicioDepto {
 
     public void setTipoServicioDepto(String tipoServicioDepto) {
         this.tipoServicioDepto = tipoServicioDepto;
-    }
-
-    public String getDescripcionServicio() {
-        return descripcionServicio;
-    }
-
-    public void setDescripcionServicio(String descripcionServicio) {
-        this.descripcionServicio = descripcionServicio;
     }
 
     public List<Departamento> getDepartamentoList() {

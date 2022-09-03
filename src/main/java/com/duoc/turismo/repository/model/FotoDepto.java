@@ -8,7 +8,7 @@ import java.sql.Blob;
 public class FotoDepto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_foto_depto", nullable = false)
+    @Column(name = "id_foto_depto")
     private Integer idFotoDepto;
 
     @Column(name = "titulo_foto_depto", nullable = false, length = 45)
@@ -24,6 +24,10 @@ public class FotoDepto {
 
     public Integer getIdFotoDepto() {
         return idFotoDepto;
+    }
+
+    public void setIdFotoDepto(Integer idFotoDepto) {
+        this.idFotoDepto = idFotoDepto;
     }
 
     public String getTituloFotoDepto() {

@@ -44,7 +44,7 @@ public class LogReserva {
     @Column(name = "rut_cliente", nullable = false, length = 12)
     private String rutCliente;
 
-    @Column(name = "eatado_reserva", nullable = false, length = 20)
+    @Column(name = "estado_reserva", nullable = false, length = 20)
     private String estadoReserva;
 
     public Integer getIdLogReserva() {
