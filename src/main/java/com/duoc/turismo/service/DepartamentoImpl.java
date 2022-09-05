@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Service
 public class DepartamentoImpl implements IDepartamentoService{
@@ -83,9 +81,13 @@ public class DepartamentoImpl implements IDepartamentoService{
         }
 
         // creo el inventario vacio, ya que los elementos necesitan tener un inventario creado
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(date);
+
         Inventario inventario = new Inventario();
         inventario.setDepartamento(deptoGuardado);
-        inventario.setFechaInventario(deptoRequest.getInventario().getFechaInventario());
+        inventario.setFechaInventario(strDate);
         Inventario inventarioGuardado = iInventarioRepo.save(inventario);
 
         // ahora si puedo crear los elementos, ya que el inventario ya fue creado,
@@ -113,10 +115,15 @@ public class DepartamentoImpl implements IDepartamentoService{
         return deptoRepo.findAll();
     }
 
-    //LISTAR DEPTO X REGION Y COMUNA
+    //BUSCAR DEPTO X REGION Y COMUNA
     @Override
     public List<Departamento> findByRegionAndComuna(String region, String comuna) {
         return deptoRepo.findByRegionAndComuna(region, comuna);
+    }
+
+    //BUSCAR DEPTO POR NOMBRE
+    public List<Departamento> findByNombreDepto(String nombreDepto){
+        return deptoRepo.findByNombreDepto(nombreDepto);
     }
 
     //METODO ACTUALIZAR ESTADO DEPARTAMENTO
@@ -253,17 +260,21 @@ public class DepartamentoImpl implements IDepartamentoService{
 
         Inventario inventarioActual = iInventarioRepo.getReferenceById(inventarioNuevo.getIdInventario());
 
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(date);
+
         for(Elemento elemento : inventarioNuevo.getElementoList()){
             switch (elemento.getAccion()){
                 case AGREGAR:
                 case MODIFICAR:
-                    inventarioActual.setFechaInventario(new Date());
+                    inventarioActual.setFechaInventario(strDate);
                     elemento.setInventario(inventarioActual);
                     iElementoRepo.save(elemento);
                     iInventarioRepo.save(inventarioActual);
                     break;
                 case ELIMINAR:
-                    inventarioActual.setFechaInventario(new Date());
+                    inventarioActual.setFechaInventario(strDate);
                     iElementoRepo.eliminarElemento(elemento.getIdElemento());
                     iInventarioRepo.save(inventarioActual);
 

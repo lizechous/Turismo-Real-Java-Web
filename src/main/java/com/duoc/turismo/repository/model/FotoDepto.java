@@ -22,6 +22,7 @@ public class FotoDepto {
     @Lob
     private Blob fotoDepto;
 
+    @Transient
     private byte[] fotoDeptoByte;
 
     @JsonIgnore

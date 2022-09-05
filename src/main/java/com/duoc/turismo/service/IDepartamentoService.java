@@ -12,11 +12,14 @@ public interface IDepartamentoService {
     //Crear depto
      void save(DepartamentoRequest deptoRequest);
 
-     //Listar depto
+     //Listar todos los depto
     List<Departamento> findByAllDeptos();
 
-    //Listar departamento por region y comuna
+    //Buscar departamento por region y comuna
     List<Departamento> findByRegionAndComuna(String region, String comuna);
+
+    //Buscar depto por nombre depto
+    List<Departamento> findByNombreDepto(String nombreDepto);
 
     //Actualizar depto estado
     Departamento updateDeptoEstado(String estado, Integer idDepartamento);
