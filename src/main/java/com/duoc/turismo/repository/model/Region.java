@@ -12,7 +12,7 @@ public class Region {
     @Column(name = "id_region", nullable = false)
     private String idRegion;
 
-    @Column(name = "nombre_comuna", nullable = false, length = 45)
+    @Column(name = "nombre_region", nullable = false, length = 45)
     private String nombrecomuna;
 
     @OneToMany(mappedBy = "region")
