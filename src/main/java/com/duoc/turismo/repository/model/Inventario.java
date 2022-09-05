@@ -14,7 +14,7 @@ public class Inventario {
     private Integer idInventario;
 
     @Column(name = "fecha_inventario", nullable = false)
-    private Date fechaInventario;
+    private String fechaInventario;
 
     @OneToMany(mappedBy = "inventario", cascade = CascadeType.ALL)
     private List<Elemento> elementoList;
@@ -32,11 +32,11 @@ public class Inventario {
         this.idInventario = idInventario;
     }
 
-    public Date getFechaInventario() {
+    public String getFechaInventario() {
         return fechaInventario;
     }
 
-    public void setFechaInventario(Date fechaInventario) {
+    public void setFechaInventario(String fechaInventario) {
         this.fechaInventario = fechaInventario;
     }
 

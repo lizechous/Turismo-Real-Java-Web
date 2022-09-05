@@ -19,6 +19,8 @@ public interface IDepartamentoRepo extends JpaRepository<Departamento, Integer> 
     //Listar departamento por region y comuna
     List<Departamento> findByRegionAndComuna(String region, String comuna);
 
+    //Listar por nombre depto
+    List<Departamento> findByNombreDepto(String nombreDepto);
 
     //Actualizar datos depto
     @Transactional

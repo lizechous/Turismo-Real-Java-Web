@@ -42,10 +42,16 @@ public class DepartamentoController {
         return deptoService.findByAllDeptos();
     }
 
-    //Listar depto por comuna y region
-    @RequestMapping(value = "/listar-deptos-por-region", method = RequestMethod.GET)
+    //Buscar deptos por comuna y region
+    @RequestMapping(value = "/listar-deptos-por-region-comuna", method = RequestMethod.GET)
     public List<Departamento> findByRegionAndComuna(@RequestParam String region, @RequestParam String comuna) {
         return deptoService.findByRegionAndComuna(region, comuna);
+    }
+
+    //Buscar depto por nombre
+    @RequestMapping(value = "/buscar-depto-por-nombre", method = RequestMethod.GET)
+    public List<Departamento> findByNombreDepto(String nombreDepto){
+        return deptoService.findByNombreDepto(nombreDepto);
     }
 
     //Actualizar fotos, desde Departamento
