@@ -22,9 +22,6 @@ public interface IServicioDeptoRepo extends JpaRepository<ServicioDepto, Integer
                                       @Param("id_servicio_depto") Integer idServicioDepto);
 
 
-    //Listar todos los servicios depto
-    List<ServicioDepto> findAll();
-
     //Eliminar servicio por id
     void deleteById(Integer idServicioDepto);
 }

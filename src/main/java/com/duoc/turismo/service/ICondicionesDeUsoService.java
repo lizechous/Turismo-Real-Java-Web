@@ -8,4 +8,8 @@ import java.util.List;
 public interface ICondicionesDeUsoService {
 
     public void saveAll(List<CondicionesDeUso> condicionesDeUsos);
+
+    void deleteById(Integer idCondicionDeUso);
+
+    List<CondicionesDeUso> listarAllCondiciones();
 }

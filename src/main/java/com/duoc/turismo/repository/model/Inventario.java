@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -17,6 +19,7 @@ public class Inventario {
     @OneToMany(mappedBy = "inventario", cascade = CascadeType.ALL)
     private List<Elemento> elementoList;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "id_departamento_FK")
     private Departamento departamento;

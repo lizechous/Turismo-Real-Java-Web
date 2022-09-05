@@ -1,5 +1,8 @@
 package com.duoc.turismo.repository.model;
 
+import com.duoc.turismo.controller.model.AccionEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +13,9 @@ public class Elemento {
     @Column(name = "id_elemento", nullable = false)
     private Integer idElemento;
 
+    @Transient
+    private AccionEnum accion;
+
     @Column(name = "nombre_elemento", nullable = false, length = 45)
     private String nombreElemento;
 
@@ -19,6 +25,7 @@ public class Elemento {
     @Column(name = "cantidad_elemento", nullable = false)
     private Integer cantidadElemento;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_inventario_FK")
     private Inventario inventario;
@@ -58,4 +65,13 @@ public class Elemento {
     public void setInventario(Inventario inventario) {
         this.inventario = inventario;
     }
+
+    public AccionEnum getAccion() {
+        return accion;
+    }
+
+    public void setAccion(AccionEnum accion) {
+        this.accion = accion;
+    }
+
 }

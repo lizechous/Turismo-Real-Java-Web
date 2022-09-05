@@ -5,12 +5,16 @@ import com.duoc.turismo.controller.model.FotoDeptoRequest;
 import com.duoc.turismo.repository.*;
 import com.duoc.turismo.repository.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class DepartamentoImpl implements IDepartamentoService{
@@ -206,9 +210,66 @@ public class DepartamentoImpl implements IDepartamentoService{
     }
 
     //MODIFICAR CONDICIONES DE USO
+    @Override
+    public void actualizarCondiciones(DepartamentoRequest departamentoRequest){
+        Departamento deptoActual = deptoRepo.getReferenceById(departamentoRequest.getIdDepto());
+        //Verifico cuales son las condiciones a desasignar
+        for(CondicionesDeUso condicionActual : deptoActual.getCondicionesDeUsoList()){
+            Boolean existe = false; //por defecto no existe
+            for(CondicionesDeUso condicionNueva : departamentoRequest.getCondicionesDeUsoList()){
+                if(condicionActual.getIdCondicion()== condicionNueva.getIdCondicion()){
+                    existe=true;
+                    break;
+                }
+            }
+            if(existe == false) {
+                //ELIMINA EL DEPTO ASOCIADO A LA CONDICION
+                CondicionesDeUso condicionDesasignar = iCondicionesDeUsoRepo.getReferenceById(condicionActual.getIdCondicion());
+                condicionDesasignar.getDepartamentoList().remove(deptoActual);
+                iCondicionesDeUsoRepo.save(condicionDesasignar);
+            }
+        }
+
+        //Verifico cuales son las condiciones a asignar
+        for(CondicionesDeUso condicionNueva: departamentoRequest.getCondicionesDeUsoList()){
+            Boolean existe = false;
+            for(CondicionesDeUso condicionActual: deptoActual.getCondicionesDeUsoList()) {
+                if(condicionNueva.getIdCondicion() == condicionActual.getIdCondicion()){
+                    existe = true;
+                    break;
+                }
+            }
+            if(existe == false) {
+                CondicionesDeUso condicionAsignar = iCondicionesDeUsoRepo.getReferenceById(condicionNueva.getIdCondicion());
+                condicionAsignar.getDepartamentoList().add(deptoActual);
+                iCondicionesDeUsoRepo.save(condicionAsignar);
+            }
+        }
+    }
 
     //MODIFICAR ELEMENTOS INVENTARIO
+    @Override
+    public void actualizarInventario(Inventario inventarioNuevo){
 
+        Inventario inventarioActual = iInventarioRepo.getReferenceById(inventarioNuevo.getIdInventario());
+
+        for(Elemento elemento : inventarioNuevo.getElementoList()){
+            switch (elemento.getAccion()){
+                case AGREGAR:
+                case MODIFICAR:
+                    inventarioActual.setFechaInventario(new Date());
+                    elemento.setInventario(inventarioActual);
+                    iElementoRepo.save(elemento);
+                    iInventarioRepo.save(inventarioActual);
+                    break;
+                case ELIMINAR:
+                    inventarioActual.setFechaInventario(new Date());
+                    iElementoRepo.eliminarElemento(elemento.getIdElemento());
+                    iInventarioRepo.save(inventarioActual);
+
+            }
+        }
+    }
 
     //METODO ELIMINAR DEPTO
     @Override

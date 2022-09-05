@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class ServicioDepto {
     @Column(name = "tipo_servicio_depto", nullable = false, length = 45)
     private String tipoServicioDepto;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "DETALLE_SERVICIO_DEPTO",
             joinColumns = @JoinColumn(name = "id_servicio_depto_FK"),

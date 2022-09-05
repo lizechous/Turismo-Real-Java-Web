@@ -20,4 +20,15 @@ public class CondicionesDeUsoImpl implements ICondicionesDeUsoService {
     public void saveAll(List<CondicionesDeUso> condicionesDeUsos) {
         iCondicionesDeUsoRepo.saveAll(condicionesDeUsos);
     }
+
+    @Override
+    public void deleteById(Integer idCondicionDeUso) {
+        iCondicionesDeUsoRepo.deleteById(idCondicionDeUso);
+    }
+
+    @Override
+    public List<CondicionesDeUso> listarAllCondiciones() {
+        return iCondicionesDeUsoRepo.findAll();
+    }
+
 }

@@ -1,6 +1,10 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -14,7 +18,9 @@ public class CondicionesDeUso {
     @Column(name = "tipo_condicion_de_uso")
     private String tipoCondicionDeUso;
 
-    @ManyToMany
+    //con la anotación JsonIgnore, este atributo no se retornará en la salida del servicio REST
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "DETALLE_CONDICIONES_DE_USO",
             joinColumns = @JoinColumn(name = "id_condiciones_FK"),
             inverseJoinColumns = @JoinColumn(name = "id_departamento_FK"))
