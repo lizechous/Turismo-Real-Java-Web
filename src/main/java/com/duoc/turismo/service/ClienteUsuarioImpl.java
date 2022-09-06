@@ -12,6 +12,12 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
    @Autowired
    private IClienteUsuarioRepo iClienteUsuarioRepo;
 
+   //CREAR CUENTA CLIENTE USUARIO
+   public void crearCuentaCLiente(ClienteUsuario clienteUsuario){
+       clienteUsuario.setEstadoRut("PENDIENTE");
+       clienteUsuario.setEstadoCuenta("DISPONIBLE");
+       iClienteUsuarioRepo.save(clienteUsuario);
+   }
     @Override
     public ClienteUsuario modificarDatosCliente(ClienteUsuario clienteModificado) {
         ClienteUsuario clienteActual = iClienteUsuarioRepo.getReferenceById(clienteModificado.getIdCliente());

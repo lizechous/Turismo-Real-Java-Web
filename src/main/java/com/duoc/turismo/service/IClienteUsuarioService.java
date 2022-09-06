@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IClienteUsuarioService {
 
+    void crearCuentaCLiente(ClienteUsuario clienteUsuario);
     ClienteUsuario modificarDatosCliente(ClienteUsuario clienteModificado);
 
     List<ClienteUsuario> listarClientes();
