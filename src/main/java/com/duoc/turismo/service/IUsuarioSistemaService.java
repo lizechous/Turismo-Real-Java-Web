@@ -1,5 +1,6 @@
 package com.duoc.turismo.service;
 
+import com.duoc.turismo.config.exceptions.UsuarioSistemaException;
 import com.duoc.turismo.repository.model.UsuarioSistema;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -13,23 +14,23 @@ import java.util.Optional;
 public interface IUsuarioSistemaService {
 
     //Crear usuarios
-    boolean saveUsuarioSistema(UsuarioSistema usuarioSistema);
+    Boolean saveUsuarioSistema(UsuarioSistema usuarioSistema) throws UsuarioSistemaException;
 
     //Listar todos los  usuarios
-    public List<UsuarioSistema> findAllUsuarios();
+    public List<UsuarioSistema> findAllUsuarios() throws UsuarioSistemaException;
 
     //Listar usuarios por su tipo
-    public List<UsuarioSistema> findByTipoUsuario(String tipo);
+    public List<UsuarioSistema> findByTipoUsuario(String tipo) throws UsuarioSistemaException;
 
     //Econtrar usuario por id
-    public Optional<UsuarioSistema> findById(Integer id);
+    public Optional<UsuarioSistema> findById(Integer id) throws UsuarioSistemaException;
 
-    //Actualizar datos usuario por email y telefono
-    public Integer updateDatos(Integer idUser, String newNombre, String newEmail, String newTelefono, String newRut);
+    //Actualizar datos usuario por datos
+    public Boolean updateDatos(Integer idUser, String newNombre, String newEmail, String newTelefono, String newRut) throws UsuarioSistemaException;
 
     //Actualizar contrasena
-    public Boolean updatePassword(String pass, Integer idUsuario);
+    public Boolean updatePassword(String pass, Integer idUsuario) throws UsuarioSistemaException;
 
     //Eliminar usuario
-    public Integer deleteUser(Integer idUser);
+    public Boolean deleteUser(Integer idUser) throws UsuarioSistemaException;
 }

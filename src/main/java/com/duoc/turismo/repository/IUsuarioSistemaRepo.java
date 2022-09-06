@@ -38,7 +38,7 @@ public interface IUsuarioSistemaRepo extends JpaRepository<UsuarioSistema, Integ
     @Transactional
     @Modifying
     @Query("update UsuarioSistema set passwordUsuario=:new_password where idUsuario=:id_usuario")
-    public Boolean updatePassword(@Param("new_password") String newPass,
+    public Integer updatePassword(@Param("new_password") String newPass,
                                   @Param("id_usuario") Integer idUsuario);
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.duoc.turismo.service;
 
+import com.duoc.turismo.config.exceptions.UsuarioSistemaException;
 import com.duoc.turismo.repository.IUsuarioSistemaRepo;
 import com.duoc.turismo.repository.model.UsuarioSistema;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,43 +18,75 @@ public class UsuarioSistemaImpl implements IUsuarioSistemaService{
 
 
     @Override
-    public boolean saveUsuarioSistema(UsuarioSistema usuarioSistema) {
+    public Boolean saveUsuarioSistema(UsuarioSistema usuarioSistema) throws UsuarioSistemaException {
         try {
             userSistemaRepo.save(usuarioSistema);
             return true;
         }catch (Exception e){
-            return false;
+            throw new UsuarioSistemaException("Error al crear usuario");
         }
     }
 
     @Override
-    public List<UsuarioSistema> findAllUsuarios()
-    {
-        return userSistemaRepo.findAll();
+    public List<UsuarioSistema> findAllUsuarios() throws UsuarioSistemaException {
+        List<UsuarioSistema> result = userSistemaRepo.findAll();
+
+        if(result == null ){
+            throw new UsuarioSistemaException("Error al listar usuarios");
+        }
+        return result;
     }
 
     @Override
-    public List<UsuarioSistema> findByTipoUsuario(String tipo) {
-        return userSistemaRepo.findByTipoUsuario(tipo);
+    public List<UsuarioSistema> findByTipoUsuario(String tipo) throws UsuarioSistemaException {
+        List<UsuarioSistema> lista = userSistemaRepo.findByTipoUsuario(tipo);
+        if (lista == null) {
+            throw new UsuarioSistemaException("Error, lista vacía");
+        }
+        return lista;
     }
 
     @Override
-    public Optional<UsuarioSistema> findById(Integer id) {
-        return userSistemaRepo.findById(id);
+    public Optional<UsuarioSistema> findById(Integer id) throws UsuarioSistemaException {
+        Optional<UsuarioSistema> result = userSistemaRepo.findById(id);
+        if (result == null){
+            throw new UsuarioSistemaException("Usuario no ecnontrado");
+        }
+        return result;
     }
 
     @Override
-    public Integer updateDatos(Integer idUser, String newNombre, String newEmail, String newTelefono, String newRut) {
-        return userSistemaRepo.updateDatos(idUser, newNombre, newEmail, newTelefono, newRut);
+    public Boolean updateDatos(Integer idUser, String newNombre, String newEmail, String newTelefono, String newRut) throws UsuarioSistemaException {
+
+        try{
+            Integer affectedRows = userSistemaRepo.updateDatos(idUser, newNombre, newEmail, newTelefono, newRut);
+            return affectedRows > 0;
+        }catch (Exception e){
+            throw new UsuarioSistemaException("Error al actualizar usuario sistema");
+        }
+
     }
 
     @Override
-    public Boolean updatePassword(String pass, Integer idUsuario) {
-        return userSistemaRepo.updatePassword(pass, idUsuario);
+    public Boolean updatePassword(String pass, Integer idUsuario) throws UsuarioSistemaException {
+
+        try{
+            Integer affectedRows = userSistemaRepo.updatePassword(pass, idUsuario);
+            return affectedRows > 0;
+        }catch (Exception e){
+            throw new UsuarioSistemaException("Error al actualizar contraseña usuario sistema");
+        }
+
     }
 
     @Override
-    public Integer deleteUser(Integer idUser) {
-        return userSistemaRepo.deleteUser(idUser);
+    public Boolean deleteUser(Integer idUser) throws UsuarioSistemaException {
+        try {
+            Integer deleteRows = userSistemaRepo.deleteUser(idUser);
+            return deleteRows > 0;
+        }catch (Exception e){
+            throw new UsuarioSistemaException("Error al eliminar usuario sistema");
+        }
+
     }
 }
