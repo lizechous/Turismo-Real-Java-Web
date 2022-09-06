@@ -1,11 +1,12 @@
 package com.duoc.turismo.repository.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "SERVICIO_EXTRA")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class ServicioExtra {
+public class ServicioExtra implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_servicio_extra", nullable = false)
@@ -19,6 +20,16 @@ public class ServicioExtra {
 
     @Column(name = "persona_a_cargo", length = 45)
     protected String personaACargo;
+
+    public ServicioExtra(){
+
+    }
+    public ServicioExtra(Integer idServicioExtra, String region, String comuna, String personaACargo) {
+        this.idServicioExtra = idServicioExtra;
+        this.region = region;
+        this.comuna = comuna;
+        this.personaACargo = personaACargo;
+    }
 
     public Integer getIdServicioExtra() {
         return idServicioExtra;
@@ -47,4 +58,10 @@ public class ServicioExtra {
     public void setPersonaACargo(String personaACargo) {
         this.personaACargo = personaACargo;
     }
+
+    public void setIdServicioExtra(Integer idServicioExtra) {
+        this.idServicioExtra = idServicioExtra;
+    }
+
 }
+

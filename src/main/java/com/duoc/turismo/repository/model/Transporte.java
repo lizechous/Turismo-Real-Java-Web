@@ -1,14 +1,12 @@
 package com.duoc.turismo.repository.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "TRANSPORTE")
 @PrimaryKeyJoinColumn(name = "id_servicio_extra_FK")
-public class Transporte extends ServicioExtra{
+public class Transporte extends ServicioExtra implements Serializable {
     @Column(name = "modelo", nullable = false, length = 45)
     private String modelo;
 
@@ -20,6 +18,18 @@ public class Transporte extends ServicioExtra{
 
     @Column(name = "patente", nullable = false, length = 8)
     private String patente;
+
+    public Transporte(){
+
+    }
+
+    public Transporte(Integer idServicioExtra, String region, String comuna, String personaACargo, String modelo, String marca, String capacidadPasajeros, String patente) {
+        super(idServicioExtra, region, comuna, personaACargo);
+        this.modelo = modelo;
+        this.marca = marca;
+        this.capacidadPasajeros = capacidadPasajeros;
+        this.patente = patente;
+    }
 
     public String getModelo() {
         return modelo;
@@ -52,4 +62,5 @@ public class Transporte extends ServicioExtra{
     public void setPatente(String patente) {
         this.patente = patente;
     }
+
 }

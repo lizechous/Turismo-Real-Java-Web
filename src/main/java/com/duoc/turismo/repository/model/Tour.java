@@ -1,14 +1,12 @@
 package com.duoc.turismo.repository.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "TOUR")
 @PrimaryKeyJoinColumn(name = "id_servicio_extra_FK")
-public class Tour extends ServicioExtra{
+public class Tour extends ServicioExtra implements Serializable {
     @Column(name = "cantidad_personas_max", nullable = false)
     private Integer cantidadPersonasMax;
 
@@ -17,6 +15,18 @@ public class Tour extends ServicioExtra{
 
     @Column(name = "descripcion_tour", nullable = false, length = 500)
     private String descripcionTour;
+
+
+    public Tour(){
+
+    }
+
+    public Tour(Integer idServicioExtra, String region, String comuna, String personaACargo, Integer cantidadPersonasMax, String tituloTour, String descripcionTour) {
+        super(idServicioExtra, region, comuna, personaACargo);
+        this.cantidadPersonasMax = cantidadPersonasMax;
+        this.tituloTour = tituloTour;
+        this.descripcionTour = descripcionTour;
+    }
 
     public Integer getCantidadPersonasMax() {
         return cantidadPersonasMax;
@@ -41,4 +51,5 @@ public class Tour extends ServicioExtra{
     public void setDescripcionTour(String descripcionTour) {
         this.descripcionTour = descripcionTour;
     }
+
 }
