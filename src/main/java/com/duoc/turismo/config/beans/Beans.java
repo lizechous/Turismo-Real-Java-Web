@@ -1,11 +1,11 @@
 package com.duoc.turismo.config.beans;
 
-import com.duoc.turismo.repository.model.ClienteUsuario;
-import com.duoc.turismo.repository.model.ServicioExtra;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-public class beans {
+@Configuration
+public class Beans {
 
     @Bean
     public RestTemplate restTemplate() {
