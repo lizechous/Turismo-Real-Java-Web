@@ -28,7 +28,7 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
 
     @Override
    public void crearCuentaCLiente(RegistrarClienteRequest clienteRequest) throws Exception {
-        if (clienteRequest.getClienteUsuario().getEstadoRut().getGlosa().equalsIgnoreCase("Pendiente") &&
+        if (clienteRequest.getClienteUsuario().getEstadoRut().getIdEstadoRut() == 1 &&
                 clienteRequest.getImagenCarnetRequestList().isEmpty()) {
             throw new Exception("Error al registrar, se requiere cargar fotos carnet");
         }

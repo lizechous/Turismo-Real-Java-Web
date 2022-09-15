@@ -1,7 +1,10 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Blob;
+import java.sql.SQLException;
 
 @Entity
 @Table(name = "IMAGEN_CARNET")
@@ -14,10 +17,15 @@ public class ImagenCarnet {
     @Column(name = "titulo_foto_carnet", nullable = false, length = 15)
     private String tituloFotoCarnet;
 
+    @JsonIgnore
     @Column(name = "foto_carnet", nullable = false)
     @Lob
     private Blob fotoCarnet;
 
+    @Transient
+    private byte[] fotoCarnetByte;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_cliente_FK")
     private ClienteUsuario clienteUsuario;
@@ -54,5 +62,15 @@ public class ImagenCarnet {
         this.clienteUsuario = clienteUsuario;
     }
 
+    public byte[] getFotoCarnetByte() {
+        if(fotoCarnet != null){
+            try {
+                return this.fotoCarnet.getBytes(1, (int)fotoCarnet.length());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return fotoCarnetByte;
+    }
 
 }
