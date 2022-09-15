@@ -22,10 +22,10 @@ public interface IDepartamentoService {
     List<Departamento> findByNombreDepto(String nombreDepto);
 
     //Actualizar depto estado
-    Departamento updateDeptoEstado(String estado, Integer idDepartamento);
+    Boolean updateDeptoEstado(String estado, Integer idDepartamento);
 
     //Actualizar datos depto
-    Departamento updateDatosDepto(Integer valorDiario, Integer cantidadCamas, Integer capacidadHuespedes,
+    Boolean updateDatosDepto(Integer valorDiario, Integer cantidadCamas, Integer capacidadHuespedes,
                                   Integer idDepto, String descripcion);
 
     //Actualizar fotos depto, desde depto

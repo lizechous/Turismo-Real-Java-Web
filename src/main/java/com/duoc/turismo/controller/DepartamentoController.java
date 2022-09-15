@@ -8,6 +8,7 @@ import com.duoc.turismo.repository.model.Inventario;
 import com.duoc.turismo.repository.model.ServicioDepto;
 import com.duoc.turismo.service.ICondicionesDeUsoService;
 import com.duoc.turismo.service.IDepartamentoService;
+import com.duoc.turismo.service.IInventarioService;
 import com.duoc.turismo.service.IServicioDeptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class DepartamentoController {
     private ICondicionesDeUsoService condicionesDeUsoService;
 
     @Autowired
-    private IInventarioRepo inventarioRepo;
+    private IInventarioService inventarioService;
 
     //Crear depto
     @RequestMapping(value = "/crear-depto", method = RequestMethod.POST)
@@ -53,6 +54,19 @@ public class DepartamentoController {
     public List<Departamento> findByNombreDepto(String nombreDepto){
         return deptoService.findByNombreDepto(nombreDepto);
     }
+
+    //Actualizar datos depto
+    @RequestMapping(value = "/actualizar-datos-depto", method = RequestMethod.POST)
+    public void updateDatosDepto(@RequestParam Integer valorDiario, @RequestParam Integer cantidadCamas, @RequestParam Integer capacidadHuespedes, @RequestParam Integer idDepto, @RequestParam String descripcion){
+         deptoService.updateDatosDepto(valorDiario, cantidadCamas, capacidadHuespedes, idDepto, descripcion);
+    }
+
+    //Actualizar estado depto
+    @RequestMapping(value = "/actualizar-estado-depto", method = RequestMethod.POST)
+    Boolean updateDeptoEstado(@RequestParam String estado, @RequestParam Integer idDepartamento){
+        return deptoService.updateDeptoEstado(estado, idDepartamento);
+    }
+
 
     //Actualizar fotos, desde Departamento
     @RequestMapping(value = "/actualizar-fotos", method = RequestMethod.POST)

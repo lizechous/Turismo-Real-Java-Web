@@ -19,8 +19,8 @@ public class ImagenCarnet {
     private Blob fotoCarnet;
 
     @ManyToOne
-    @JoinColumn(name = "id_verificacion_pendiente_FK")
-    private VerificacionPendiente verificacionPendiente;
+    @JoinColumn(name = "id_cliente_FK")
+    private ClienteUsuario clienteUsuario;
 
     public Integer getIdImagenCarnet() {
         return idImagenCarnet;
@@ -42,11 +42,17 @@ public class ImagenCarnet {
         this.fotoCarnet = fotoCarnet;
     }
 
-    public VerificacionPendiente getVerificacionPendiente() {
-        return verificacionPendiente;
+    public void setIdImagenCarnet(Integer idImagenCarnet) {
+        this.idImagenCarnet = idImagenCarnet;
     }
 
-    public void setVerificacionPendiente(VerificacionPendiente verificacionPendiente) {
-        this.verificacionPendiente = verificacionPendiente;
+    public ClienteUsuario getClienteUsuario() {
+        return clienteUsuario;
     }
+
+    public void setClienteUsuario(ClienteUsuario clienteUsuario) {
+        this.clienteUsuario = clienteUsuario;
+    }
+
+
 }

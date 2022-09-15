@@ -27,7 +27,7 @@ public interface IDepartamentoRepo extends JpaRepository<Departamento, Integer> 
     @Modifying
     @Query("update Departamento set valorDiario =:valor_diario, cantidadCamas =:cantidad_camas, " +
             "capacidadHuespedes =:capacidad_huespedes, descripcion =:descripcion where idDepartamento =:id_depto")
-    Departamento updateDatosDepto(@Param("valor_diario") Integer valorDiario,
+    Integer updateDatosDepto(@Param("valor_diario") Integer valorDiario,
                                     @Param("cantidad_camas") Integer cantidadCamas,
                                     @Param("capacidad_huespedes") Integer capacidadHuespedes,
                                     @Param("id_depto") Integer idDepto,
@@ -37,7 +37,7 @@ public interface IDepartamentoRepo extends JpaRepository<Departamento, Integer> 
     @Transactional
     @Modifying
     @Query("update Departamento set estado =:estado_depto where idDepartamento =:id_depto")
-    Departamento updateDeptoEstado(@Param("estado_depto") String estado, @Param("id_depto") Integer idDepartamento);
+    Integer updateDeptoEstado(@Param("estado_depto") String estado, @Param("id_depto") Integer idDepartamento);
 
 
 }

@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -32,17 +34,18 @@ public class ClienteUsuario {
     @Column(name = "telefono_cliente", nullable = false, length = 12)
     private String telefonoCliente;
 
-    @Column(name = "estado_rut", nullable = false, length = 15)
-    private String estadoRut;
-
     @Column(name = "estado_cuenta", nullable = false, length = 12)
     private String estadoCuenta;
 
-    @OneToOne(mappedBy = "clienteUsuario")
-    private VerificacionPendiente verificacionPendiente;
-
     @OneToMany(mappedBy = "clienteUsuario", cascade = CascadeType.ALL)
     private List<MedioDePago> medioDePagoList;
+
+    @OneToMany(mappedBy = "clienteUsuario", cascade = CascadeType.ALL)
+    private List<ImagenCarnet> imagenCarnetList;
+
+    @ManyToOne
+    @JoinColumn(name = "estado_rut_FK")
+    private EstadoRut estadoRut;
 
     public Integer getIdCliente() {
         return idCliente;
@@ -104,14 +107,6 @@ public class ClienteUsuario {
         this.telefonoCliente = telefonoCliente;
     }
 
-    public String getEstadoRut() {
-        return estadoRut;
-    }
-
-    public void setEstadoRut(String estadoRut) {
-        this.estadoRut = estadoRut;
-    }
-
     public String getEstadoCuenta() {
         return estadoCuenta;
     }
@@ -120,19 +115,31 @@ public class ClienteUsuario {
         this.estadoCuenta = estadoCuenta;
     }
 
-    public VerificacionPendiente getVerificacionPendiente() {
-        return verificacionPendiente;
-    }
-
-    public void setVerificacionPendiente(VerificacionPendiente verificacionPendiente) {
-        this.verificacionPendiente = verificacionPendiente;
-    }
-
     public List<MedioDePago> getMedioDePagoList() {
         return medioDePagoList;
     }
 
     public void setMedioDePagoList(List<MedioDePago> medioDePagoList) {
         this.medioDePagoList = medioDePagoList;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public List<ImagenCarnet> getImagenCarnetList() {
+        return imagenCarnetList;
+    }
+
+    public void setImagenCarnetList(List<ImagenCarnet> imagenCarnetList) {
+        this.imagenCarnetList = imagenCarnetList;
+    }
+
+    public EstadoRut getEstadoRut() {
+        return estadoRut;
+    }
+
+    public void setEstadoRut(EstadoRut estadoRut) {
+        this.estadoRut = estadoRut;
     }
 }

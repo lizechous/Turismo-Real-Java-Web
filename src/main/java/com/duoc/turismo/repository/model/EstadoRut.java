@@ -1,6 +1,7 @@
 package com.duoc.turismo.repository.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "ESTADO_RUT")
@@ -13,6 +14,9 @@ public class EstadoRut {
     @Column(name = "glosa", nullable = false, length = 45)
     private String glosa;
 
+    @OneToMany(mappedBy = "estadoRut", cascade = CascadeType.ALL)
+    private List<ClienteUsuario> clienteUsuarioList;
+
     public Integer getIdEstadoRut() {
         return idEstadoRut;
     }
@@ -23,5 +27,17 @@ public class EstadoRut {
 
     public void setGlosa(String glosa) {
         this.glosa = glosa;
+    }
+
+    public void setIdEstadoRut(Integer idEstadoRut) {
+        this.idEstadoRut = idEstadoRut;
+    }
+
+    public List<ClienteUsuario> getClienteUsuarioList() {
+        return clienteUsuarioList;
+    }
+
+    public void setClienteUsuarioList(List<ClienteUsuario> clienteUsuarioList) {
+        this.clienteUsuarioList = clienteUsuarioList;
     }
 }
