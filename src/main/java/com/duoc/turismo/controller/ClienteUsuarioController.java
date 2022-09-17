@@ -19,11 +19,13 @@ public class ClienteUsuarioController {
     @Autowired
     private IRutGateway iRutGateway;
 
+    @CrossOrigin
     @RequestMapping(value = "/crear-cuenta-cliente", method = RequestMethod.POST)
     public void crearCuentaCLiente(@RequestBody RegistrarClienteRequest clienteUsuarioRequest) throws Exception {
         iClienteUsuarioService.crearCuentaCLiente(clienteUsuarioRequest);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/validar-rut", method = RequestMethod.GET)
     public ResponseEntity<String> validarRut(@RequestParam String rut){
         return new ResponseEntity<>(iRutGateway.rutValido(rut), HttpStatus.OK);

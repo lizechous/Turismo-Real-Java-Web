@@ -28,7 +28,7 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
 
     @Override
    public void crearCuentaCLiente(RegistrarClienteRequest clienteRequest) throws Exception {
-        if (clienteRequest.getClienteUsuario().getEstadoRut().getIdEstadoRut() == 1 &&
+        if (clienteRequest.getClienteUsuario().getEstadoRut().getIdEstadoRut() == 2 &&
                 clienteRequest.getImagenCarnetRequestList().isEmpty()) {
             throw new Exception("Error al registrar, se requiere cargar fotos carnet");
         }
@@ -43,7 +43,8 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
             imgNueva.setTituloFotoCarnet(imagenCarnetRequest.getTituloFotoCarnet());
             imgNueva.setClienteUsuario(clienteRegistrado);
             //esto convierte la foto string en un byte (del postman viene en string)
-            byte[] fotoByte = Base64.getDecoder().decode(imagenCarnetRequest.getFotoCarnet());
+            String fotoBase64 = imagenCarnetRequest.getFotoCarnet().split(",")[1];
+            byte[] fotoByte = Base64.getDecoder().decode(fotoBase64);
             try {
                 //aqui transforma el byte a BLOB
                 imgNueva.setFotoCarnet(new SerialBlob(fotoByte));
