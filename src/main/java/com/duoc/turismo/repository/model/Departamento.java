@@ -198,4 +198,6 @@ public class Departamento {
     public void setCondicionesDeUsoList(List<CondicionesDeUso> condicionesDeUsoList) {
         this.condicionesDeUsoList = condicionesDeUsoList;
     }
+
+
 }

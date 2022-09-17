@@ -128,14 +128,16 @@ public class DepartamentoImpl implements IDepartamentoService{
 
     //METODO ACTUALIZAR ESTADO DEPARTAMENTO
     @Override
-    public Departamento updateDeptoEstado(String estado, Integer idDepartamento) {
-        return deptoRepo.updateDeptoEstado(estado, idDepartamento);
+    public Boolean updateDeptoEstado(String estado, Integer idDepartamento) {
+        Integer affectedRows = deptoRepo.updateDeptoEstado(estado, idDepartamento);
+        return affectedRows>0;
     }
 
     //METODO ACTUALIZAR DATOS DEPTO
     @Override
-    public Departamento updateDatosDepto(Integer valorDiario, Integer cantidadCamas, Integer capacidadHuespedes, Integer idDepto, String descripcion) {
-        return deptoRepo.updateDatosDepto(valorDiario, cantidadCamas, capacidadHuespedes, idDepto, descripcion);
+    public Boolean updateDatosDepto(Integer valorDiario, Integer cantidadCamas, Integer capacidadHuespedes, Integer idDepto, String descripcion) {
+        Integer affectedRows = deptoRepo.updateDatosDepto(valorDiario, cantidadCamas, capacidadHuespedes, idDepto, descripcion);
+        return affectedRows>0;
     }
 
     //METODO ACTUALIZAR FOTOS

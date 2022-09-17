@@ -72,4 +72,6 @@ public class FotoDepto {
         }
         return fotoDeptoByte;
     }
+
+
 }

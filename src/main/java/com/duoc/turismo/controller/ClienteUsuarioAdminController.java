@@ -35,8 +35,12 @@ public class ClienteUsuarioAdminController {
     }
 
     @RequestMapping(value = "/suspender-cliente", method = RequestMethod.POST)
-    public void suspenderCuentaUsuario(@RequestParam Integer idCliente){
-        iClienteUsuarioService.suspenderCuentaUsuario(idCliente);
+    public void modificarEstadoCuentaCliente(@RequestParam Integer idUsuario,@RequestParam String estadoCuenta){
+        iClienteUsuarioService.modificarEstadoCuentaCliente(idUsuario, estadoCuenta);
     }
 
+    @RequestMapping(value = "/aprobar-rut-cliente", method = RequestMethod.POST)
+    public Integer updateEstadorutCliente(@RequestParam Integer estadoRutId, @RequestParam Integer idCliente) {
+        return iClienteUsuarioService.updateEstadorutCliente(estadoRutId, idCliente);
+    }
 }
