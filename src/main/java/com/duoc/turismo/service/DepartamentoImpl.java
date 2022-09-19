@@ -56,7 +56,7 @@ public class DepartamentoImpl implements IDepartamentoService{
         //TODO: NO GUARDAR DEPTO SI NO EXITEN CONDICIONES DE USO Y SERVICIOS
         Departamento deptoGuardado = deptoRepo.save(depto);
 
-        /* // asigno los servicios al depto guardado
+        // asigno los servicios al depto guardado
         for(ServicioDepto servicioDepto: deptoRequest.getServicioDeptoList()){
             // obtengo el servicio del depto almacenado en la bd mediante el id que viene en el request
             ServicioDepto servicioDeptoGuardado = iServicioDeptoRepo.getReferenceById(servicioDepto.getIdServicioDepto());
@@ -71,7 +71,17 @@ public class DepartamentoImpl implements IDepartamentoService{
         for (FotoDeptoRequest fotoDeptoRequest: deptoRequest.getFotoDeptoList()){
             FotoDepto foto = new FotoDepto();
             foto.setTituloFotoDepto(fotoDeptoRequest.getTituloFotoDepto());
-            byte[] fotoByte = Base64.getDecoder().decode(fotoDeptoRequest.getFotoDepto());
+            byte[] fotoByte;
+            if (fotoDeptoRequest.getFotoDepto().contains("data:image/jpeg;base64,")){
+                String replaced = fotoDeptoRequest.getFotoDepto().replace("data:image/jpeg;base64","");
+                fotoByte = Base64.getDecoder().decode(replaced);
+            }else if(fotoDeptoRequest.getFotoDepto().contains("data:image/png;base64,")) {
+                String replace = fotoDeptoRequest.getFotoDepto().replace("data:image/png;base64,", "");
+                fotoByte = Base64.getDecoder().decode(replace);
+            }
+            else {
+                fotoByte = Base64.getDecoder().decode(fotoDeptoRequest.getFotoDepto());
+            }
             try {
                 foto.setFotoDepto(new SerialBlob(fotoByte));
             } catch (SQLException e) {
@@ -104,7 +114,7 @@ public class DepartamentoImpl implements IDepartamentoService{
             condicionGuardada.getDepartamentoList().add(deptoGuardado);
 
             iCondicionesDeUsoRepo.save(condicionGuardada);
-        } */
+        }
     }
 
     //METODO LISTAR TODOS LOS DEPTOS

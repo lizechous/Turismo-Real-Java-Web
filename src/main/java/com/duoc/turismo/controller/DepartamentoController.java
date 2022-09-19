@@ -32,6 +32,7 @@ public class DepartamentoController {
     private IInventarioService inventarioService;
 
     //Crear depto
+    @CrossOrigin
     @RequestMapping(value = "/crear-depto", method = RequestMethod.POST)
     public void crearDepto(@RequestBody DepartamentoRequest deptoRequest){
         deptoService.save(deptoRequest);
