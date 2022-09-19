@@ -16,6 +16,7 @@ import java.util.List;
 public class DepartamentoRequest {
 
     private Integer idDepto;
+
     private String direccion;
 
     private String nombreDepto;

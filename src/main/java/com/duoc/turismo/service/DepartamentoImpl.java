@@ -53,9 +53,10 @@ public class DepartamentoImpl implements IDepartamentoService{
         depto.setDireccion(deptoRequest.getDireccion());
         depto.setValorDiario(deptoRequest.getValorDiario());
 
+        //TODO: NO GUARDAR DEPTO SI NO EXITEN CONDICIONES DE USO Y SERVICIOS
         Departamento deptoGuardado = deptoRepo.save(depto);
 
-        // asigno los servicios al depto guardado
+        /* // asigno los servicios al depto guardado
         for(ServicioDepto servicioDepto: deptoRequest.getServicioDeptoList()){
             // obtengo el servicio del depto almacenado en la bd mediante el id que viene en el request
             ServicioDepto servicioDeptoGuardado = iServicioDeptoRepo.getReferenceById(servicioDepto.getIdServicioDepto());
@@ -103,10 +104,7 @@ public class DepartamentoImpl implements IDepartamentoService{
             condicionGuardada.getDepartamentoList().add(deptoGuardado);
 
             iCondicionesDeUsoRepo.save(condicionGuardada);
-        }
-
-
-
+        } */
     }
 
     //METODO LISTAR TODOS LOS DEPTOS
