@@ -28,6 +28,7 @@ public class MantenedorController {
     }
 
     //Listar servicios depto
+    @CrossOrigin
     @RequestMapping(value = "/listar-servicios-depto", method = RequestMethod.GET)
     public List<ServicioDepto> findAllServiciosDepto() {
         return servicioDeptoService.findAll();
@@ -47,6 +48,7 @@ public class MantenedorController {
 
     //Listar condiciones de uso
     @RequestMapping(value = "/listar-condiciones", method = RequestMethod.GET)
+    @CrossOrigin
     public List<CondicionesDeUso> findAllCondiciones() {
         return condicionesDeUsoService.listarAllCondiciones();
     }

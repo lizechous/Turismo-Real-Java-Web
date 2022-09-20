@@ -103,10 +103,10 @@ public class DepartamentoImpl implements IDepartamentoService{
 
         // ahora si puedo crear los elementos, ya que el inventario ya fue creado,
         // pero debo setear el inventario a cada elemento y guardarlo
-        for (Elemento elemento: deptoRequest.getInventario().getElementoList()){
+        /*for (Elemento elemento: deptoRequest.getInventario().getElementoList()){
             elemento.setInventario(inventarioGuardado);
             iElementoRepo.save(elemento);
-        }
+        }*/
 
         for(CondicionesDeUso condicion: deptoRequest.getCondicionesDeUsoList()){
             CondicionesDeUso condicionGuardada = iCondicionesDeUsoRepo.getReferenceById(condicion.getIdCondicion());
