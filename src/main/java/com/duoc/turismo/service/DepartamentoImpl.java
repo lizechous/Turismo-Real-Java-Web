@@ -70,7 +70,8 @@ public class DepartamentoImpl implements IDepartamentoService{
         for (FotoDeptoRequest fotoDeptoRequest: deptoRequest.getFotoDeptoList()){
             FotoDepto foto = new FotoDepto();
             foto.setTituloFotoDepto(fotoDeptoRequest.getTituloFotoDepto());
-            byte[] fotoByte = Base64.getDecoder().decode(fotoDeptoRequest.getFotoDepto());
+            String fotoBase64 = fotoDeptoRequest.getFotoDepto().split(",")[1];
+            byte[] fotoByte = Base64.getDecoder().decode(fotoBase64);
             try {
                 foto.setFotoDepto(new SerialBlob(fotoByte));
             } catch (SQLException e) {
