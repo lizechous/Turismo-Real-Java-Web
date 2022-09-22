@@ -32,13 +32,14 @@ public class DepartamentoController {
     private IInventarioService inventarioService;
 
     //Crear depto
-    @CrossOrigin
+    @CrossOrigin("http://127.0.0.1:5500")
     @RequestMapping(value = "/crear-depto", method = RequestMethod.POST)
     public void crearDepto(@RequestBody DepartamentoRequest deptoRequest){
         deptoService.save(deptoRequest);
     }
 
     //Listar deptos
+    @CrossOrigin("http://127.0.0.1:5500")
     @RequestMapping(value = "/listar-deptos", method = RequestMethod.GET)
     public List<Departamento> listarDeptos(){
         return deptoService.findByAllDeptos();

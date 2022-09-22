@@ -21,6 +21,7 @@ public class ServicioExtraController {
     IServicioExtraService iServicioExtraService;
 
     //Crear tour
+    @CrossOrigin("http://127.0.0.1:5500")
     @RequestMapping(value = "/crear-servicio-extra-tour", method = RequestMethod.POST)
     public ResponseEntity<Boolean> saveTour(@RequestBody Tour tour) throws ServicioExtraException {
         try{
@@ -31,6 +32,7 @@ public class ServicioExtraController {
     }
 
     //Crear transporte
+    @CrossOrigin("http://127.0.0.1:5500")
     @RequestMapping(value = "/crear-servicio-extra-transporte", method = RequestMethod.POST)
     public ResponseEntity<Boolean> saveTransporte(@RequestBody Transporte transporte){
         try {
@@ -61,8 +63,10 @@ public class ServicioExtraController {
     }
 
     //Listar todos tours
+    @CrossOrigin("http://127.0.0.1:5500")
     @RequestMapping(value = "/listar-tours", method = RequestMethod.GET)
-    public ResponseEntity<List> listarTours(){
+    public ResponseEntity<List>
+    listarTours(){
         try{
             return new ResponseEntity<>(iServicioExtraService.listarTours(), HttpStatus.FOUND);
         }catch (ServicioExtraException e){

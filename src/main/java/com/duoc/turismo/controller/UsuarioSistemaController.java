@@ -19,6 +19,7 @@ public class UsuarioSistemaController {
     private IUsuarioSistemaService usuarioService;
 
     //Crear usuario
+    @CrossOrigin("http://127.0.0.1:5500")
     @RequestMapping(value = "/save-usuario-sistema", method = RequestMethod.POST) //ruta del servicio
     public ResponseEntity<Boolean> saveUser(@RequestBody UsuarioSistema usuarioSistema) throws UsuarioSistemaException {
         try{

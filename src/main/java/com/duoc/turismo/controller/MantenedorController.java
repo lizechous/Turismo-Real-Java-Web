@@ -22,6 +22,7 @@ public class MantenedorController {
 
 
     //Crear servicio depto, desde ServicioDepto****
+    @CrossOrigin("http://127.0.0.1:5500")
     @RequestMapping(value = "/crear-servicio-depto", method = RequestMethod.POST)
     public void crearServicioDepto(@RequestBody List<ServicioDepto> serviciosDeptos){
         servicioDeptoService.saveAll(serviciosDeptos);
@@ -35,12 +36,14 @@ public class MantenedorController {
     }
 
     //Eliminar servicio, desde servicioDepto
+    @CrossOrigin
     @RequestMapping(value = "/eliminar-servicio", method = RequestMethod.DELETE)
     public void deleteByIdServicioDepto(@RequestParam Integer idServicioDepto){
         servicioDeptoService.deleteById(idServicioDepto);
     }
 
     //Crear condiciones de uso, desde CondicionesDeUso****
+    @CrossOrigin
     @RequestMapping(value = "/crear-condiciones-de-uso", method = RequestMethod.POST)
     public void saveAll(@RequestBody List<CondicionesDeUso> condicionesDeUsos) {
         condicionesDeUsoService.saveAll(condicionesDeUsos);
@@ -54,6 +57,7 @@ public class MantenedorController {
     }
 
     //Eliminar condicion de uso, desde CondicionesDeUso***
+    @CrossOrigin
     @RequestMapping(value = "/eliminar-condicion-de-uso", method = RequestMethod.DELETE)
     public void deleteById(@RequestParam Integer idCondicionDeUso) {
         condicionesDeUsoService.deleteById(idCondicionDeUso);
