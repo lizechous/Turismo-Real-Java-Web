@@ -13,4 +13,6 @@ public interface ICondicionesDeUsoRepo extends JpaRepository<CondicionesDeUso, I
     //Eliminar CondicionDeUso
     void deleteById(Integer idCondicionDeUso);
 
+    CondicionesDeUso findByIdCondicion(Integer idCondicionDeUso);
+
 }

@@ -8,16 +8,22 @@ import java.util.List;
 
 public interface IClienteUsuarioService {
 
-    void crearCuentaCLiente(RegistrarClienteRequest clienteRequest) throws Exception;
+    ClienteUsuario crearCuentaCLiente(RegistrarClienteRequest clienteRequest) throws Exception;
     ClienteUsuario modificarDatosCliente(ClienteUsuario clienteModificado);
 
     List<ClienteUsuario> listarClientes();
 
-    ClienteUsuario BuscarClientesPorRut(String rutCLiente);
+    ClienteUsuario buscarPorId(Integer id);
+
+    List<ClienteUsuario> buscarClientes(String rutCLiente, String estadoCuenta, Integer estadoRut);
+
+    ClienteUsuario buscarPorRut(String rutCLiente);
 
     void eliminarCliente(ClienteUsuario clienteUsuario);
 
     void modificarEstadoCuentaCliente(Integer idUsuario, String estadoCuenta);
 
     Integer updateEstadorutCliente(Integer estadoRutId, Integer idCliente);
+
+    ClienteUsuario loginUser(String email, String password);
 }

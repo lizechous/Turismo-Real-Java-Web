@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -17,6 +19,7 @@ public class BoletaReserva {
     @Column(name = "monto_boleta", nullable = false)
     private Integer montoBoleta;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_reserva_FK")
     private Reserva reserva;

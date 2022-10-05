@@ -5,7 +5,6 @@ import com.duoc.turismo.controller.model.FotoDeptoRequest;
 import com.duoc.turismo.repository.*;
 import com.duoc.turismo.repository.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -35,6 +34,60 @@ public class DepartamentoImpl implements IDepartamentoService{
     @Autowired
     private ICondicionesDeUsoRepo iCondicionesDeUsoRepo;
 
+    //MODIFICAR SERVICIO DEPTO
+    @Override
+    public void actualizarServicioDepto(Departamento departamentoRequest) {
+
+        Departamento deptoGuardado = deptoRepo.findByIdDepartamento(departamentoRequest.getIdDepartamento());
+        for(ServicioDepto servicio: departamentoRequest.getServicioDeptoList()){ //fotoDeptorequestList***
+            if(servicio.getAccion() == null){
+                continue;
+            }
+            ServicioDepto servicioBD = iServicioDeptoRepo.findByIdServicioDepto(servicio.getIdServicioDepto());
+            switch (servicio.getAccion()){
+                case AGREGAR:
+                    servicioBD.getDepartamentoList().add(deptoGuardado);
+                    iServicioDeptoRepo.save(servicioBD);
+                    break;
+                case ELIMINAR:
+                    servicioBD.getDepartamentoList().removeIf(x -> x.getIdDepartamento() == deptoGuardado.getIdDepartamento());
+                    iServicioDeptoRepo.save(servicioBD);
+                    break;
+            }
+        }
+    }
+
+    //MODIFICAR CONDICIONES DE USO
+    @Override
+    public void actualizarCondiciones(Departamento departamentoRequest){
+        Departamento deptoGuardado = deptoRepo.findByIdDepartamento(departamentoRequest.getIdDepartamento());
+        for(CondicionesDeUso condicion: departamentoRequest.getCondicionesDeUsoList()){ //fotoDeptorequestList***
+            if(condicion.getAccion() == null){
+                continue;
+            }
+            CondicionesDeUso condicionBD = iCondicionesDeUsoRepo.findByIdCondicion(condicion.getIdCondicion());
+            switch (condicion.getAccion()) {
+                case AGREGAR:
+                    condicionBD.getDepartamentoList().add(deptoGuardado);
+                    iCondicionesDeUsoRepo.save(condicionBD);
+                    break;
+                case ELIMINAR:
+                    condicionBD.getDepartamentoList().removeIf(x -> x.getIdDepartamento() == deptoGuardado.getIdDepartamento());
+                    iCondicionesDeUsoRepo.save(condicionBD);
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public List<String> getComunasDepto() {
+        return deptoRepo.getComunasDepto();
+    }
+
+    @Override
+    public List<Departamento> buscarDeptosDisponibles(Date fechaInicio, Date fechaFin, String comuna, Integer valorMaximo) {
+        return deptoRepo.buscarDepartamentosDisponibles(fechaInicio, fechaFin, comuna, valorMaximo);
+    }
 
     //METODO CREAR DEPARTAMENTO
     @Override
@@ -49,7 +102,7 @@ public class DepartamentoImpl implements IDepartamentoService{
         depto.setNombreDepto(deptoRequest.getNombreDepto());
         depto.setCapacidadHuespedes(deptoRequest.getCapacidadHuespedes());
         depto.setDescripcion(deptoRequest.getDescripcion());
-        depto.setEstado(deptoRequest.getEstado());
+        depto.setEstado(true);
         depto.setDireccion(deptoRequest.getDireccion());
         depto.setValorDiario(deptoRequest.getValorDiario());
 
@@ -112,8 +165,8 @@ public class DepartamentoImpl implements IDepartamentoService{
 
     //METODO LISTAR TODOS LOS DEPTOS
     @Override
-    public List<Departamento> findByAllDeptos() {
-        return deptoRepo.findAll();
+    public List<Departamento> buscarDepartamento(Boolean estado, String region, String comuna) {
+        return deptoRepo.buscarDepartamento(estado, region, comuna);
     }
 
     //BUSCAR DEPTO X REGION Y COMUNA
@@ -127,34 +180,54 @@ public class DepartamentoImpl implements IDepartamentoService{
         return deptoRepo.findByNombreDepto(nombreDepto);
     }
 
+    @Override
+    public Departamento findByIdDepto(Integer id) {
+        return deptoRepo.findByIdDepartamento(id);
+    }
+
     //METODO ACTUALIZAR ESTADO DEPARTAMENTO
     @Override
-    public Boolean updateDeptoEstado(String estado, Integer idDepartamento) {
+    public Boolean updateDeptoEstado(Boolean estado, Integer idDepartamento) {
         Integer affectedRows = deptoRepo.updateDeptoEstado(estado, idDepartamento);
         return affectedRows>0;
     }
 
     //METODO ACTUALIZAR DATOS DEPTO
     @Override
-    public Boolean updateDatosDepto(Integer valorDiario, Integer cantidadCamas, Integer capacidadHuespedes, Integer idDepto, String descripcion) {
-        Integer affectedRows = deptoRepo.updateDatosDepto(valorDiario, cantidadCamas, capacidadHuespedes, idDepto, descripcion);
-        return affectedRows>0;
+    public Boolean updateDatosDepto(Departamento departamento) {
+        Departamento deptoGuardado = deptoRepo.findByIdDepartamento(departamento.getIdDepartamento());
+        deptoGuardado.setDireccion(departamento.getDireccion());
+        deptoGuardado.setNombreDepto(departamento.getNombreDepto());
+        deptoGuardado.setCantidadHabitaciones(departamento.getCantidadHabitaciones());
+        deptoGuardado.setCantidadBanios(departamento.getCantidadBanios());
+        deptoGuardado.setRegion(departamento.getRegion());
+        deptoGuardado.setComuna(departamento.getComuna());
+        deptoGuardado.setDimensiones(departamento.getDimensiones());
+        deptoGuardado.setCapacidadHuespedes(departamento.getCapacidadHuespedes());
+        deptoGuardado.setCantidadCamas(departamento.getCantidadCamas());
+        deptoGuardado.setDescripcion(departamento.getDescripcion());
+        deptoGuardado.setValorDiario(departamento.getValorDiario());
+        deptoRepo.save(deptoGuardado);
+        return true;
     }
 
     //METODO ACTUALIZAR FOTOS
     @Override
-    public void actualizarFotos(DepartamentoRequest departamentoRequest) {
+    public void actualizarFotos(Departamento departamentoRequest) {
 
         //obtengo el id del depto para asignarselo a las nuevas fotos
-        Departamento deptoGuardado = deptoRepo.getReferenceById(departamentoRequest.getIdDepto());
-        for(FotoDeptoRequest fotoRequest: departamentoRequest.getFotoDeptoList()){ //fotoDeptorequestList***
-
-            switch (fotoRequest.getAccionFoto()){
+        Departamento deptoGuardado = deptoRepo.findByIdDepartamento(departamentoRequest.getIdDepartamento());
+        for(FotoDepto fotoRequest: departamentoRequest.getFotoDeptoList()){ //fotoDeptorequestList***
+            if(fotoRequest.getAccion() == null){
+                continue;
+            }
+            switch (fotoRequest.getAccion()){
                 case AGREGAR:
                     FotoDepto fotoEntityNueva = new FotoDepto();
                     fotoEntityNueva.setDepartamento(deptoGuardado);
                     fotoEntityNueva.setTituloFotoDepto(fotoRequest.getTituloFotoDepto());
-                    byte[] fotoByte = Base64.getDecoder().decode(fotoRequest.getFotoDepto());
+                    String fotoBase64 = fotoRequest.getFotoDeptoString().split(",")[1];
+                    byte[] fotoByte = Base64.getDecoder().decode(fotoBase64);
                     try {
                         fotoEntityNueva.setFotoDepto(new SerialBlob(fotoByte));
                     } catch (SQLException e) {
@@ -163,97 +236,10 @@ public class DepartamentoImpl implements IDepartamentoService{
                     iFotoDeptoRepo.save(fotoEntityNueva);
                     break;
                 case ELIMINAR:
-                    iFotoDeptoRepo.deleteById(fotoRequest.getIdFoto());
-                    break;
-                case MODIFICAR:
-                    FotoDepto fotoModificar = iFotoDeptoRepo.getReferenceById(fotoRequest.getIdFoto());
-                    fotoModificar.setTituloFotoDepto(fotoRequest.getTituloFotoDepto());
-                    byte[] fotoByteModificada = Base64.getDecoder().decode(fotoRequest.getFotoDepto());
-                    try {
-                        fotoModificar.setFotoDepto(new SerialBlob(fotoByteModificada));
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    iFotoDeptoRepo.save(fotoModificar);
+                    iFotoDeptoRepo.deleteById(fotoRequest.getIdFotoDepto());
                     break;
             }
 
-        }
-    }
-
-    //MODIFICAR SERVICIO DEPTO
-    @Override
-    public void actualizarServicioDepto(DepartamentoRequest departamentoRequest) {
-        Departamento deptoActual = deptoRepo.getReferenceById(departamentoRequest.getIdDepto());
-        //Verifico cuales son los servicios a desasignar
-        for(ServicioDepto servicioActual : deptoActual.getServicioDeptoList()){
-            Boolean existe = false; //por defecto no existe
-            for(ServicioDepto servicioNuevo : departamentoRequest.getServicioDeptoList()){
-                if(servicioActual.getIdServicioDepto()== servicioNuevo.getIdServicioDepto()){
-                    existe=true;
-                    break;
-                }
-            }
-            if(existe == false) {
-                //ELIMINA EL DEPTO ASOCIADO AL SERVICIO
-                ServicioDepto servicioDesasignar = iServicioDeptoRepo.getReferenceById(servicioActual.getIdServicioDepto());
-                servicioDesasignar.getDepartamentoList().remove(deptoActual);
-                iServicioDeptoRepo.save(servicioDesasignar);
-            }
-        }
-
-        //Verifico cuales son los servicios a asignar
-        for(ServicioDepto servicioNuevo: departamentoRequest.getServicioDeptoList()){
-            Boolean existe = false;
-            for(ServicioDepto servicioActual: deptoActual.getServicioDeptoList()) {
-                if(servicioNuevo.getIdServicioDepto() == servicioActual.getIdServicioDepto()){
-                    existe = true;
-                    break;
-                }
-            }
-            if(existe == false) {
-                ServicioDepto servicioAsignar = iServicioDeptoRepo.getReferenceById(servicioNuevo.getIdServicioDepto());
-                servicioAsignar.getDepartamentoList().add(deptoActual);
-                iServicioDeptoRepo.save(servicioAsignar);
-            }
-        }
-    }
-
-    //MODIFICAR CONDICIONES DE USO
-    @Override
-    public void actualizarCondiciones(DepartamentoRequest departamentoRequest){
-        Departamento deptoActual = deptoRepo.getReferenceById(departamentoRequest.getIdDepto());
-        //Verifico cuales son las condiciones a desasignar
-        for(CondicionesDeUso condicionActual : deptoActual.getCondicionesDeUsoList()){
-            Boolean existe = false; //por defecto no existe
-            for(CondicionesDeUso condicionNueva : departamentoRequest.getCondicionesDeUsoList()){
-                if(condicionActual.getIdCondicion()== condicionNueva.getIdCondicion()){
-                    existe=true;
-                    break;
-                }
-            }
-            if(existe == false) {
-                //ELIMINA EL DEPTO ASOCIADO A LA CONDICION
-                CondicionesDeUso condicionDesasignar = iCondicionesDeUsoRepo.getReferenceById(condicionActual.getIdCondicion());
-                condicionDesasignar.getDepartamentoList().remove(deptoActual);
-                iCondicionesDeUsoRepo.save(condicionDesasignar);
-            }
-        }
-
-        //Verifico cuales son las condiciones a asignar
-        for(CondicionesDeUso condicionNueva: departamentoRequest.getCondicionesDeUsoList()){
-            Boolean existe = false;
-            for(CondicionesDeUso condicionActual: deptoActual.getCondicionesDeUsoList()) {
-                if(condicionNueva.getIdCondicion() == condicionActual.getIdCondicion()){
-                    existe = true;
-                    break;
-                }
-            }
-            if(existe == false) {
-                CondicionesDeUso condicionAsignar = iCondicionesDeUsoRepo.getReferenceById(condicionNueva.getIdCondicion());
-                condicionAsignar.getDepartamentoList().add(deptoActual);
-                iCondicionesDeUsoRepo.save(condicionAsignar);
-            }
         }
     }
 
@@ -261,13 +247,16 @@ public class DepartamentoImpl implements IDepartamentoService{
     @Override
     public void actualizarInventario(Inventario inventarioNuevo){
 
-        Inventario inventarioActual = iInventarioRepo.getReferenceById(inventarioNuevo.getIdInventario());
+        Inventario inventarioActual = iInventarioRepo.findByIdInventario(inventarioNuevo.getIdInventario());
 
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(date);
 
         for(Elemento elemento : inventarioNuevo.getElementoList()){
+            if(elemento.getAccion() == null){
+                continue;
+            }
             switch (elemento.getAccion()){
                 case AGREGAR:
                 case MODIFICAR:
@@ -283,13 +272,5 @@ public class DepartamentoImpl implements IDepartamentoService{
 
             }
         }
-    }
-
-    //METODO ELIMINAR DEPTO
-    @Override
-    public void deleteById(Integer idDepto) {
-        //obtengo el depto por id
-        Departamento depto = deptoRepo.getReferenceById(idDepto);
-        deptoRepo.deleteById(depto.getIdDepartamento());
     }
 }

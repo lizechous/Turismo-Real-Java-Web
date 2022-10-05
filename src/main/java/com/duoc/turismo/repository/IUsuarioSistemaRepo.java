@@ -15,14 +15,11 @@ import java.util.Optional;
 public interface IUsuarioSistemaRepo extends JpaRepository<UsuarioSistema, Integer> {
     //JPARepository : se le indica el objeto a persistir y el tipo de dato de la PK
 
-    //boolean saveUsuarioSistema(UsuarioSistema usuarioSistema); //es como si estuviera
-    //directamente desde el servicio
-
     //encontrar usuario sistema por tipoUsuario, trae varios
     //findBy es una palabra reservada donde la consulta de select ya está hecha
     public List<UsuarioSistema> findByTipoUsuario(String tipo); //tiene que tener si o si el nombre de la variable
 
-   // public Optional<UsuarioSistema> findById(Integer id);
+    UsuarioSistema findByIdUsuario(Integer id);
 
     //CUIDADO CON LOS ESPACIOS ENTRE =: *********************
 
@@ -45,4 +42,6 @@ public interface IUsuarioSistemaRepo extends JpaRepository<UsuarioSistema, Integ
     @Modifying
     @Query("delete from UsuarioSistema where idUsuario=:id_user")
     public Integer deleteUser(@Param("id_user") Integer idUser);
+
+    UsuarioSistema findByEmailUsuarioAndPasswordUsuario(String email, String password);
 }

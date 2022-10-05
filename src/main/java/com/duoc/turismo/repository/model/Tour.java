@@ -6,7 +6,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "TOUR")
 @PrimaryKeyJoinColumn(name = "id_servicio_extra_FK")
-public class Tour extends ServicioExtra implements Serializable {
+public class Tour extends ServicioExtra implements Serializable, Cloneable {
     @Column(name = "cantidad_personas_max", nullable = false)
     private Integer cantidadPersonasMax;
 
@@ -16,17 +16,8 @@ public class Tour extends ServicioExtra implements Serializable {
     @Column(name = "descripcion_tour", nullable = false, length = 500)
     private String descripcionTour;
 
-
-    public Tour(){
-
-    }
-
-    public Tour(Integer idServicioExtra, String region, String comuna, String personaACargo, Integer cantidadPersonasMax, String tituloTour, String descripcionTour) {
-        super(idServicioExtra, region, comuna, personaACargo);
-        this.cantidadPersonasMax = cantidadPersonasMax;
-        this.tituloTour = tituloTour;
-        this.descripcionTour = descripcionTour;
-    }
+    @Column(name = "valor_tour", nullable = false, length = 45)
+    private Integer valorTour;
 
     public Integer getCantidadPersonasMax() {
         return cantidadPersonasMax;
@@ -52,4 +43,16 @@ public class Tour extends ServicioExtra implements Serializable {
         this.descripcionTour = descripcionTour;
     }
 
+    public Integer getValorTour() {
+        return valorTour;
+    }
+
+    public void setValorTour(Integer valorTour) {
+        this.valorTour = valorTour;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class Comuna {
     @Column(name = "nombre_comuna", nullable = false, length = 45)
     private String nombreComuna;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_region_FK")
     private Region region;

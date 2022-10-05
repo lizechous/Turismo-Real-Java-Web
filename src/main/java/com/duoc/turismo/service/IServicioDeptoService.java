@@ -8,7 +8,7 @@ import java.util.List;
 public interface IServicioDeptoService {
 
     //Guardar todos los servicios
-    public void saveAll(List<ServicioDepto> serviciosDeptos);
+    public void save(ServicioDepto servicioDepto);
 
     //Listar servicios
     List<ServicioDepto> findAll();

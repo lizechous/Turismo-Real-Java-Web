@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class EstadoReserva {
     @Column(name = "glosa", nullable = false, length = 20)
     private String glosa;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "estadoReserva")
     private List<Reserva> reservaList;
 
@@ -31,5 +34,9 @@ public class EstadoReserva {
 
     public List<Reserva> getReservaList() {
         return reservaList;
+    }
+
+    public void setIdEstadoReserva(Integer idEstadoReserva) {
+        this.idEstadoReserva = idEstadoReserva;
     }
 }

@@ -56,11 +56,10 @@ public class UsuarioSistemaImpl implements IUsuarioSistemaService{
     }
 
     @Override
-    public Boolean updateDatos(Integer idUser, String newNombre, String newEmail, String newTelefono, String newRut) throws UsuarioSistemaException {
+    public void updateDatos(UsuarioSistema usuarioSistema) throws UsuarioSistemaException {
 
         try{
-            Integer affectedRows = userSistemaRepo.updateDatos(idUser, newNombre, newEmail, newTelefono, newRut);
-            return affectedRows > 0;
+            userSistemaRepo.save(usuarioSistema);
         }catch (Exception e){
             throw new UsuarioSistemaException("Error al actualizar usuario sistema");
         }
@@ -88,5 +87,10 @@ public class UsuarioSistemaImpl implements IUsuarioSistemaService{
             throw new UsuarioSistemaException("Error al eliminar usuario sistema");
         }
 
+    }
+
+    @Override
+    public UsuarioSistema login(String email, String password) {
+        return userSistemaRepo.findByEmailUsuarioAndPasswordUsuario(email,password);
     }
 }

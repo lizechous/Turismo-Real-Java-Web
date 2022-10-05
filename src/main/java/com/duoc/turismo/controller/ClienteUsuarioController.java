@@ -1,5 +1,6 @@
 package com.duoc.turismo.controller;
 
+import com.duoc.turismo.controller.model.LoginUserRequest;
 import com.duoc.turismo.controller.model.RegistrarClienteRequest;
 import com.duoc.turismo.gateway.IRutGateway;
 import com.duoc.turismo.repository.model.ClienteUsuario;
@@ -21,13 +22,19 @@ public class ClienteUsuarioController {
 
     @CrossOrigin
     @RequestMapping(value = "/crear-cuenta-cliente", method = RequestMethod.POST)
-    public void crearCuentaCLiente(@RequestBody RegistrarClienteRequest clienteUsuarioRequest) throws Exception {
-        iClienteUsuarioService.crearCuentaCLiente(clienteUsuarioRequest);
+    public ClienteUsuario crearCuentaCLiente(@RequestBody RegistrarClienteRequest clienteUsuarioRequest) throws Exception {
+        return iClienteUsuarioService.crearCuentaCLiente(clienteUsuarioRequest);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/validar-rut", method = RequestMethod.GET)
     public ResponseEntity<String> validarRut(@RequestParam String rut){
         return new ResponseEntity<>(iRutGateway.rutValido(rut), HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/login-user", method = RequestMethod.POST)
+    public ResponseEntity<ClienteUsuario> loginUser(@RequestBody LoginUserRequest login){
+        return new ResponseEntity<ClienteUsuario>(iClienteUsuarioService.loginUser(login.getEmail(), login.getPassword()), HttpStatus.OK);
     }
 }

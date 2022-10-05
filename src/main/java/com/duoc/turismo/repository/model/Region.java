@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
@@ -13,8 +15,9 @@ public class Region {
     private String idRegion;
 
     @Column(name = "nombre_region", nullable = false, length = 45)
-    private String nombrecomuna;
+    private String nombreRegion;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "region")
     private List<Comuna> comunaList;
 
@@ -22,12 +25,12 @@ public class Region {
         return idRegion;
     }
 
-    public String getNombrecomuna() {
-        return nombrecomuna;
+    public String getNombreRegion() {
+        return nombreRegion;
     }
 
-    public void setNombrecomuna(String nombrecomuna) {
-        this.nombrecomuna = nombrecomuna;
+    public void setNombreRegion(String nombreRegion) {
+        this.nombreRegion = nombreRegion;
     }
 
     public List<Comuna> getComunaList() {

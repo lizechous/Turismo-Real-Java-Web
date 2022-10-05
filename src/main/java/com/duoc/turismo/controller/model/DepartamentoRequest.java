@@ -24,7 +24,7 @@ public class DepartamentoRequest {
 
     private Integer cantidadBanios;
 
-    private String estado;
+    private Boolean estado;
 
     private String region;
 
@@ -88,11 +88,11 @@ public class DepartamentoRequest {
         this.cantidadBanios = cantidadBanios;
     }
 
-    public String getEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 

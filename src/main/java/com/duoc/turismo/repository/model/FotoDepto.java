@@ -1,5 +1,6 @@
 package com.duoc.turismo.repository.model;
 
+import com.duoc.turismo.controller.model.AccionEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -24,6 +25,12 @@ public class FotoDepto {
 
     @Transient
     private byte[] fotoDeptoByte;
+
+    @Transient
+    private String fotoDeptoString;
+
+    @Transient
+    private AccionEnum accion;
 
     @JsonIgnore
     @ManyToOne
@@ -73,5 +80,19 @@ public class FotoDepto {
         return fotoDeptoByte;
     }
 
+    public AccionEnum getAccion() {
+        return accion;
+    }
 
+    public void setAccion(AccionEnum accion) {
+        this.accion = accion;
+    }
+
+    public String getFotoDeptoString() {
+        return fotoDeptoString;
+    }
+
+    public void setFotoDeptoString(String fotoDeptoString) {
+        this.fotoDeptoString = fotoDeptoString;
+    }
 }

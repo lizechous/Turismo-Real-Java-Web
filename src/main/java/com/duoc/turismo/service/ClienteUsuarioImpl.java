@@ -27,7 +27,7 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
    //CREAR CUENTA CLIENTE USUARIO
 
     @Override
-   public void crearCuentaCLiente(RegistrarClienteRequest clienteRequest) throws Exception {
+   public ClienteUsuario crearCuentaCLiente(RegistrarClienteRequest clienteRequest) throws Exception {
         if (clienteRequest.getClienteUsuario().getEstadoRut().getIdEstadoRut() == 2 &&
                 clienteRequest.getImagenCarnetRequestList().isEmpty()) {
             throw new Exception("Error al registrar, se requiere cargar fotos carnet");
@@ -43,7 +43,7 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
             imgNueva.setTituloFotoCarnet(imagenCarnetRequest.getTituloFotoCarnet());
             imgNueva.setClienteUsuario(clienteRegistrado);
             //esto convierte la foto string en un byte (del postman viene en string)
-            String fotoBase64 = imagenCarnetRequest.getFotoCarnet().split(",")[1];
+            String fotoBase64 = imagenCarnetRequest.getFotoCarnet().contains(",") ? imagenCarnetRequest.getFotoCarnet().split(",")[1] : imagenCarnetRequest.getFotoCarnet();
             byte[] fotoByte = Base64.getDecoder().decode(fotoBase64);
             try {
                 //aqui transforma el byte a BLOB
@@ -53,6 +53,8 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
             }
             iImagenCarnetRepo.save(imgNueva);
         }
+
+        return clienteRegistrado;
 
 
     }
@@ -73,7 +75,17 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
     }
 
     @Override
-    public ClienteUsuario BuscarClientesPorRut(String rutCLiente) {
+    public ClienteUsuario buscarPorId(Integer id) {
+        return iClienteUsuarioRepo.findByIdCliente(id);
+    }
+
+    @Override
+    public List<ClienteUsuario> buscarClientes(String rutCLiente, String estadoCuenta, Integer estadoRut) {
+        return iClienteUsuarioRepo.buscarCliente(rutCLiente, estadoCuenta, estadoRut);
+    }
+
+    @Override
+    public ClienteUsuario buscarPorRut(String rutCLiente) {
         return iClienteUsuarioRepo.findByRutCliente(rutCLiente);
     }
 
@@ -91,9 +103,12 @@ public class ClienteUsuarioImpl implements IClienteUsuarioService{
 
     @Override
     public Integer updateEstadorutCliente(Integer estadoRutId, Integer idCliente) {
-        ClienteUsuario clienteEstadoRut = iClienteUsuarioRepo.getReferenceById(idCliente);
-        clienteEstadoRut.getEstadoRut().setIdEstadoRut(estadoRutId);
         Integer affectedRows = iClienteUsuarioRepo.updateEstadorutCliente(estadoRutId, idCliente);
         return  affectedRows;
+    }
+
+    @Override
+    public ClienteUsuario loginUser(String email, String password) {
+        return iClienteUsuarioRepo.findByEmailClienteAndPasswordCliente(email, password);
     }
 }

@@ -27,8 +27,8 @@ public class Departamento {
     @Column(name = "cantidad_banios", nullable = false)
     private Integer cantidadBanios;
 
-    @Column(name = "estado", nullable = false, length = 20)
-    private String estado;
+    @Column(name = "estado")
+    private Boolean estado;
 
     @Column(name = "region", nullable = false, length = 45)
     private String region;
@@ -57,10 +57,10 @@ public class Departamento {
     @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL)
     private List<FotoDepto> fotoDeptoList;
 
-    @ManyToMany(mappedBy = "departamentoList", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "departamentoList")
     private List<ServicioDepto> servicioDeptoList;
 
-    @ManyToMany(mappedBy = "departamentoList", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "departamentoList")
     private List<CondicionesDeUso> condicionesDeUsoList;
 
     public Integer getIdDepartamento() {
@@ -103,11 +103,11 @@ public class Departamento {
         this.cantidadBanios = cantidadBanios;
     }
 
-    public String getEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 

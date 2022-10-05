@@ -1,6 +1,7 @@
 package com.duoc.turismo.gateway;
 
 import com.duoc.turismo.gateway.model.RutValidationResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

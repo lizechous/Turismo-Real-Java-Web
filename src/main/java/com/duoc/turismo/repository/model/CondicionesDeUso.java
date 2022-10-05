@@ -1,5 +1,6 @@
 package com.duoc.turismo.repository.model;
 
+import com.duoc.turismo.controller.model.AccionEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,6 +18,9 @@ public class CondicionesDeUso {
 
     @Column(name = "tipo_condicion_de_uso")
     private String tipoCondicionDeUso;
+
+    @Transient
+    private AccionEnum accion;
 
     //con la anotación JsonIgnore, este atributo no se retornará en la salida del servicio REST
     @JsonIgnore
@@ -48,5 +52,13 @@ public class CondicionesDeUso {
 
     public void setDepartamentoList(List<Departamento> departamentoList) {
         this.departamentoList = departamentoList;
+    }
+
+    public AccionEnum getAccion() {
+        return accion;
+    }
+
+    public void setAccion(AccionEnum accion) {
+        this.accion = accion;
     }
 }

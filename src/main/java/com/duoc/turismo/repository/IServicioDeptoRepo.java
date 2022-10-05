@@ -24,4 +24,7 @@ public interface IServicioDeptoRepo extends JpaRepository<ServicioDepto, Integer
 
     //Eliminar servicio por id
     void deleteById(Integer idServicioDepto);
+
+    ServicioDepto findByIdServicioDepto(Integer id);
+
 }

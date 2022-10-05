@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,6 +18,7 @@ public class Acompanante {
     @Column(name = "rut_acompanante", nullable = false, length = 12)
     private String rutAcompanante;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_reserva_FK")
     private Reserva reserva;

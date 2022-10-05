@@ -19,18 +19,6 @@ public class Transporte extends ServicioExtra implements Serializable {
     @Column(name = "patente", nullable = false, length = 8)
     private String patente;
 
-    public Transporte(){
-
-    }
-
-    public Transporte(Integer idServicioExtra, String region, String comuna, String personaACargo, String modelo, String marca, String capacidadPasajeros, String patente) {
-        super(idServicioExtra, region, comuna, personaACargo);
-        this.modelo = modelo;
-        this.marca = marca;
-        this.capacidadPasajeros = capacidadPasajeros;
-        this.patente = patente;
-    }
-
     public String getModelo() {
         return modelo;
     }

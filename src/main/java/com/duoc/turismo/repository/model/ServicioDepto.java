@@ -1,5 +1,6 @@
 package com.duoc.turismo.repository.model;
 
+import com.duoc.turismo.controller.model.AccionEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -15,6 +16,9 @@ public class ServicioDepto {
 
     @Column(name = "tipo_servicio_depto", nullable = false, length = 45)
     private String tipoServicioDepto;
+
+    @Transient
+    private AccionEnum accion;
 
     @JsonIgnore
     @ManyToMany
@@ -41,5 +45,13 @@ public class ServicioDepto {
 
     public void setDepartamentoList(List<Departamento> departamentoList) {
         this.departamentoList = departamentoList;
+    }
+
+    public AccionEnum getAccion() {
+        return accion;
+    }
+
+    public void setAccion(AccionEnum accion) {
+        this.accion = accion;
     }
 }

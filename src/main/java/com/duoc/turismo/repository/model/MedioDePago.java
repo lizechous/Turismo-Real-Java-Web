@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,6 +18,7 @@ public class MedioDePago {
     @Column(name = "predeterminado", nullable = false)
     private Boolean predeterminado;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_cliente_FK")
     private ClienteUsuario clienteUsuario;

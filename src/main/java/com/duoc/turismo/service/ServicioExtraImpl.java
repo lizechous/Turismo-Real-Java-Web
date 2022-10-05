@@ -1,13 +1,17 @@
 package com.duoc.turismo.service;
 
 import com.duoc.turismo.config.exceptions.ServicioExtraException;
+import com.duoc.turismo.repository.IFotoTourRepo;
 import com.duoc.turismo.repository.ITourRepo;
 import com.duoc.turismo.repository.ITransporteRepo;
-import com.duoc.turismo.repository.model.Tour;
-import com.duoc.turismo.repository.model.Transporte;
+import com.duoc.turismo.repository.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -19,11 +23,28 @@ public class ServicioExtraImpl implements IServicioExtraService {
     @Autowired
     ITransporteRepo iTransporteRepo;
 
+    @Autowired
+    IFotoTourRepo iFotoTourRepo;
+
     //CREAR TOUR
     @Override
     public Boolean saveTour(Tour tour) throws ServicioExtraException {
         try{
-            iTourRepo.save(tour);
+            Tour tourSinFotos = (Tour) tour.clone();
+            tourSinFotos.setFotoTourList(null);
+            Tour tourGuardado = iTourRepo.save(tourSinFotos);
+
+            for(FotoTour foto: tour.getFotoTourList()){
+                String fotoBase64 = foto.getFotoTourString().split(",")[1];
+                byte[] fotoByte = Base64.getDecoder().decode(fotoBase64);
+                try {
+                    foto.setFotoTour(new SerialBlob(fotoByte));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                foto.setServicioExtra(tourGuardado);
+                iFotoTourRepo.save(foto);
+            }
             return true;
         }catch (Exception e){
             throw new ServicioExtraException("Error al crear servicio tour");
@@ -46,7 +67,7 @@ public class ServicioExtraImpl implements IServicioExtraService {
     public List<Tour> listarTours() throws ServicioExtraException {
 
         try{
-            return iTourRepo.findAll();
+            return iTourRepo.findByEstado(true);
         }catch (Exception e){
             throw new ServicioExtraException("Error al listar los tour");
         }
@@ -57,7 +78,7 @@ public class ServicioExtraImpl implements IServicioExtraService {
     public List<Transporte> listarTransportes() throws ServicioExtraException {
 
         try {
-            return iTransporteRepo.findAll();
+            return iTransporteRepo.findByEstado(true);
         }catch (Exception e){
             throw new ServicioExtraException("Error al listar transportes");
         }
@@ -66,7 +87,7 @@ public class ServicioExtraImpl implements IServicioExtraService {
     @Override
     public List<Tour> findByRegionAndComunaTour(String region, String comuna) throws ServicioExtraException {
         try{
-            return iTourRepo.findByRegionAndComuna(region,comuna);
+            return iTourRepo.findByRegionAndComunaAndEstado(region,comuna,true);
         }catch (Exception e){
             throw new ServicioExtraException("Error al buscar tour");
         }
@@ -75,7 +96,7 @@ public class ServicioExtraImpl implements IServicioExtraService {
     @Override
     public List<Transporte> findByRegionAndComunaTransporte(String region, String comuna) throws ServicioExtraException {
         try{
-            return iTransporteRepo.findByRegionAndComuna(region, comuna);
+            return iTransporteRepo.findByRegionAndComunaAndEstado(region, comuna, true);
         }catch (Exception e){
             throw new ServicioExtraException("Error al buscar transporte");
         }
@@ -83,10 +104,12 @@ public class ServicioExtraImpl implements IServicioExtraService {
 
     //ELIMINAR TOUR
     @Override
-    public Boolean deleteByIdTour(Integer idTour) throws ServicioExtraException {
+    public Boolean cambiarEstadoTour(Integer idTour, Boolean estado) throws ServicioExtraException {
 
         try{
-            iTourRepo.deleteById(idTour);
+            Tour tour = iTourRepo.findByIdServicioExtra(idTour);
+            tour.setEstado(estado);
+            iTourRepo.save(tour);
             return true;
         }catch (Exception e){
             throw new ServicioExtraException("Error al eliminar tour");
@@ -95,10 +118,11 @@ public class ServicioExtraImpl implements IServicioExtraService {
 
     //ELIMINAR TRANSPORTE
     @Override
-    public Boolean deleteByIdTransporte(Integer idTransporte) throws ServicioExtraException {
-
+    public Boolean cambiarEstadoTransporte(Integer idTransporte, Boolean estado) throws ServicioExtraException {
         try{
-            iTransporteRepo.deleteById(idTransporte);
+            Transporte transporte = iTransporteRepo.findByIdServicioExtra(idTransporte);
+            transporte.setEstado(estado);
+            iTransporteRepo.save(transporte);
             return true;
         }catch (Exception e){
             throw new ServicioExtraException("Error al eliminar transporte");
@@ -125,9 +149,7 @@ public class ServicioExtraImpl implements IServicioExtraService {
     //Actualizar transporte
     @Override
     public Transporte actualizarTransporte(Transporte transporteNuevo) throws ServicioExtraException {
-        //Me traigo el objeto de la bds que coincida con el objeto del request y lo guardo en la variable
         Transporte transporteActual = iTransporteRepo.getReferenceById(transporteNuevo.getIdServicioExtra());
-        //le seteo los datos que tiene el objeto request
         transporteActual.setPersonaACargo(transporteNuevo.getPersonaACargo());
         transporteActual.setRegion(transporteNuevo.getRegion());
         transporteActual.setComuna(transporteNuevo.getComuna());
@@ -135,11 +157,72 @@ public class ServicioExtraImpl implements IServicioExtraService {
         transporteActual.setModelo(transporteNuevo.getModelo());
         transporteActual.setCapacidadPasajeros(transporteNuevo.getCapacidadPasajeros());
         transporteActual.setPatente(transporteNuevo.getPatente());
-        //guardo el objeto de la bds modificado, de nuevo en la bds
         try{
             return iTransporteRepo.save(transporteActual);
         }catch (Exception e){
             throw new ServicioExtraException("Error al actualizar transporte");
         }
     }
+
+    @Override
+    public List<String> getRegionesTour() {
+        return iTourRepo.getRegionesTour();
+    }
+
+    @Override
+    public List<String> getRegionesTransporte() throws ServicioExtraException {
+        return iTransporteRepo.getRegionesTransporte();
+    }
+
+    @Override
+    public List<String> getComunasTour(String region) throws ServicioExtraException {
+        return iTourRepo.getComunasTour(region);
+    }
+
+    @Override
+    public List<String> getComunasTransporte(String region) throws ServicioExtraException {
+        return iTransporteRepo.getComunasTransporte(region);
+    }
+
+    @Override
+    public Tour buscarTourPorId(Integer id) throws ServicioExtraException {
+        return iTourRepo.findByIdServicioExtra(id);
+    }
+
+    @Override
+    public Transporte buscarTransportePorId(Integer id) throws ServicioExtraException {
+        return iTransporteRepo.findByIdServicioExtra(id);
+    }
+
+    @Override
+    public void actualizarFotos(Tour tour) throws ServicioExtraException {
+        //obtengo el id del depto para asignarselo a las nuevas fotos
+        Tour tourGuardado = iTourRepo.findByIdServicioExtra(tour.getIdServicioExtra());
+        for(FotoTour fotoRequest: tour.getFotoTourList()){ //fotoDeptorequestList***
+            if(fotoRequest.getAccion() == null){
+                continue;
+            }
+            switch (fotoRequest.getAccion()){
+                case AGREGAR:
+                    FotoTour fotoEntityNueva = new FotoTour();
+                    fotoEntityNueva.setServicioExtra(tourGuardado);
+                    fotoEntityNueva.setTituloFotoTour(fotoRequest.getTituloFotoTour());
+                    String fotoBase64 = fotoRequest.getFotoTourString().split(",")[1];
+                    byte[] fotoByte = Base64.getDecoder().decode(fotoBase64);
+                    try {
+                        fotoEntityNueva.setFotoTour(new SerialBlob(fotoByte));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    iFotoTourRepo.save(fotoEntityNueva);
+                    break;
+                case ELIMINAR:
+                    iFotoTourRepo.deleteById(fotoRequest.getIdFotoTour());
+                    break;
+            }
+
+        }
+    }
+
+
 }

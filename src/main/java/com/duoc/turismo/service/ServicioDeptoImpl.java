@@ -16,8 +16,8 @@ public class ServicioDeptoImpl implements IServicioDeptoService {
 
     //Guardar lista servicios
     @Override
-    public void saveAll(List<ServicioDepto> serviciosDeptos) {
-        iServicioDeptoRepo.saveAll(serviciosDeptos);
+    public void save(ServicioDepto servicioDepto) {
+        iServicioDeptoRepo.save(servicioDepto);
     }
 
     @Override

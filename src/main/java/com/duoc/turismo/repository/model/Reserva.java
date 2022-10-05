@@ -14,16 +14,23 @@ public class Reserva {
     @Column(name = "fecha_llegada", nullable = false)
     private Date fechaLlegada;
 
+    @Transient
+    private String fechaLlegadaString;
+
     @Column(name = "fecha_salida", nullable = false)
     private Date fechaSalida;
+
+    @Transient
+    private String fechaSalidaString;
 
     @Column(name = "fecha_reserva", nullable = false)
     private Date fechaReserva;
 
     @Column(name = "monto_prepago", nullable = false)
-    private Date montoPrepago;
+    private Integer montoPrepago;
 
     //Aqui si se aplica el OneToMany porque trae pocos registros
+    @Transient
     @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)
     private List<Acompanante> acompananteList;
 
@@ -82,11 +89,11 @@ public class Reserva {
         this.fechaSalida = fechaSalida;
     }
 
-    public Date getMontoPrepago() {
+    public Integer getMontoPrepago() {
         return montoPrepago;
     }
 
-    public void setMontoPrepago(Date montoPrepago) {
+    public void setMontoPrepago(Integer montoPrepago) {
         this.montoPrepago = montoPrepago;
     }
 
@@ -160,5 +167,21 @@ public class Reserva {
 
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
+    }
+
+    public String getFechaLlegadaString() {
+        return fechaLlegadaString;
+    }
+
+    public void setFechaLlegadaString(String fechaLlegadaString) {
+        this.fechaLlegadaString = fechaLlegadaString;
+    }
+
+    public String getFechaSalidaString() {
+        return fechaSalidaString;
+    }
+
+    public void setFechaSalidaString(String fechaSalidaString) {
+        this.fechaSalidaString = fechaSalidaString;
     }
 }

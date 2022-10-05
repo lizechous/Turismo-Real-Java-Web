@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class EstadoRut {
     @Column(name = "glosa", nullable = false, length = 45)
     private String glosa;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "estadoRut", cascade = CascadeType.ALL)
     private List<ClienteUsuario> clienteUsuarioList;
 

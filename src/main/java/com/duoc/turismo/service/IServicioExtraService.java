@@ -1,10 +1,8 @@
 package com.duoc.turismo.service;
 
 import com.duoc.turismo.config.exceptions.ServicioExtraException;
-import com.duoc.turismo.repository.model.ServicioExtra;
 import com.duoc.turismo.repository.model.Tour;
 import com.duoc.turismo.repository.model.Transporte;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -30,15 +28,29 @@ public interface IServicioExtraService {
     List<Transporte> findByRegionAndComunaTransporte(String region, String comuna) throws ServicioExtraException;
 
     //Eliminar tour
-    Boolean deleteByIdTour(Integer idTour) throws ServicioExtraException;
+    Boolean cambiarEstadoTour(Integer idTour, Boolean estado) throws ServicioExtraException;
 
     //Eliminar transporte
-    Boolean deleteByIdTransporte(Integer idTransporte) throws ServicioExtraException;
+    Boolean cambiarEstadoTransporte(Integer idTransporte, Boolean estado) throws ServicioExtraException;
 
     //Actualizar tour
     Tour actualizarTour(Tour tour) throws ServicioExtraException;
 
     //Actualizar transporte
      Transporte actualizarTransporte(Transporte transporteNuevo) throws ServicioExtraException;
+
+     List<String> getRegionesTour() throws ServicioExtraException;
+
+    List<String> getRegionesTransporte() throws ServicioExtraException;
+
+    List<String> getComunasTour(String region) throws ServicioExtraException;
+
+    List<String> getComunasTransporte(String region) throws ServicioExtraException;
+
+    Tour buscarTourPorId(Integer id) throws ServicioExtraException;
+
+    Transporte buscarTransportePorId(Integer id) throws ServicioExtraException;
+
+    void actualizarFotos(Tour tour) throws ServicioExtraException;
 
 }

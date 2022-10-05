@@ -17,8 +17,8 @@ public class CondicionesDeUsoImpl implements ICondicionesDeUsoService {
 
 
     @Override
-    public void saveAll(List<CondicionesDeUso> condicionesDeUsos) {
-        iCondicionesDeUsoRepo.saveAll(condicionesDeUsos);
+    public void save(CondicionesDeUso condicionDeUsos) {
+        iCondicionesDeUsoRepo.save(condicionDeUsos);
     }
 
     @Override

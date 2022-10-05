@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ICondicionesDeUsoService {
 
-    public void saveAll(List<CondicionesDeUso> condicionesDeUsos);
+    public void save(CondicionesDeUso condicionDeUsos);
 
     void deleteById(Integer idCondicionDeUso);
 

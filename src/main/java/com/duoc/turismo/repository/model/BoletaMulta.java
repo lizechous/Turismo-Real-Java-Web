@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -23,6 +25,7 @@ public class BoletaMulta {
     @Column(name = "fecha_multa", nullable = false)
     private Date fechaMulta;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_reserva_FK")
     private Reserva reserva;

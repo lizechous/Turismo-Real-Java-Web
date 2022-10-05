@@ -2,8 +2,6 @@ package com.duoc.turismo.service;
 
 import com.duoc.turismo.config.exceptions.UsuarioSistemaException;
 import com.duoc.turismo.repository.model.UsuarioSistema;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +24,13 @@ public interface IUsuarioSistemaService {
     public Optional<UsuarioSistema> findById(Integer id) throws UsuarioSistemaException;
 
     //Actualizar datos usuario por datos
-    public Boolean updateDatos(Integer idUser, String newNombre, String newEmail, String newTelefono, String newRut) throws UsuarioSistemaException;
+    public void updateDatos(UsuarioSistema usuarioSistema) throws UsuarioSistemaException;
 
     //Actualizar contrasena
     public Boolean updatePassword(String pass, Integer idUsuario) throws UsuarioSistemaException;
 
     //Eliminar usuario
     public Boolean deleteUser(Integer idUser) throws UsuarioSistemaException;
+
+    UsuarioSistema login(String email, String password);
 }

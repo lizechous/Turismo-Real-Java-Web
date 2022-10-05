@@ -2,6 +2,7 @@ package com.duoc.turismo.repository.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "SERVICIO_EXTRA")
@@ -21,15 +22,11 @@ public class ServicioExtra implements Serializable {
     @Column(name = "persona_a_cargo", length = 45)
     protected String personaACargo;
 
-    public ServicioExtra(){
+    @Column(name = "estado", length = 45)
+    protected Boolean estado;
 
-    }
-    public ServicioExtra(Integer idServicioExtra, String region, String comuna, String personaACargo) {
-        this.idServicioExtra = idServicioExtra;
-        this.region = region;
-        this.comuna = comuna;
-        this.personaACargo = personaACargo;
-    }
+    @OneToMany(mappedBy = "servicioExtra", cascade = CascadeType.ALL)
+    private List<FotoTour> fotoTourList;
 
     public Integer getIdServicioExtra() {
         return idServicioExtra;
@@ -63,5 +60,20 @@ public class ServicioExtra implements Serializable {
         this.idServicioExtra = idServicioExtra;
     }
 
+    public List<FotoTour> getFotoTourList() {
+        return fotoTourList;
+    }
+
+    public void setFotoTourList(List<FotoTour> fotoTourList) {
+        this.fotoTourList = fotoTourList;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
 }
 
