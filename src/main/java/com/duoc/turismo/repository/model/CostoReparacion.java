@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -23,9 +25,12 @@ public class CostoReparacion {
     @Column(name = "fecha_emision", nullable = false)
     private Date  fechaEmision;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_reserva_FK")
     private Reserva reserva;
+
+    private Integer idReserva;
 
     public Integer getIdCostos() {
         return idCostos;
@@ -67,4 +72,15 @@ public class CostoReparacion {
         return reserva;
     }
 
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+    }
+
+    public Integer getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
+    }
 }

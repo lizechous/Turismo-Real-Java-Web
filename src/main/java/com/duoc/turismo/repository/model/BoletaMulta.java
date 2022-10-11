@@ -30,6 +30,8 @@ public class BoletaMulta {
     @JoinColumn(name = "id_reserva_FK")
     private Reserva reserva;
 
+    private Integer idReserva;
+
     public Integer getIdBoletaMulta() {
         return idBoletaMulta;
     }
@@ -70,4 +72,15 @@ public class BoletaMulta {
         return reserva;
     }
 
+    public Integer getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+    }
 }

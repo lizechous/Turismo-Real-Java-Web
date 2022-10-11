@@ -1,10 +1,7 @@
 package com.duoc.turismo.service;
 
 import com.duoc.turismo.repository.*;
-import com.duoc.turismo.repository.model.Acompanante;
-import com.duoc.turismo.repository.model.BoletaReserva;
-import com.duoc.turismo.repository.model.EstadoReserva;
-import com.duoc.turismo.repository.model.Reserva;
+import com.duoc.turismo.repository.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +21,15 @@ public class ReservaServiceImpl implements IReservaService{
 
     @Autowired
     IAcompananteRepo acompananteRepo;
+
+    @Autowired
+    IChecklistRepo checklistRepo;
+
+    @Autowired
+    ICostoReparacionRepo costoReparacionRepo;
+
+    @Autowired
+    IBoletaMultaRepo boletaMultaRepo;
 
     @Override
     public Integer reservarDepto(Reserva reserva) {
@@ -79,6 +85,43 @@ public class ReservaServiceImpl implements IReservaService{
     @Override
     public List<Reserva> obtenerReservasCliente(Integer id) {
         return reservaRepo.findByClienteUsuario(id);
+    }
+
+    @Override
+    public List<Reserva> buscarReservasFiltro(String fechaLlegada, String fechaSalida, Integer estado) {
+        return reservaRepo.buscarReservasPorFiltro(fechaLlegada, fechaSalida, estado);
+    }
+
+    @Override
+    public void crearChecklist(Checklist checklist) {
+        Reserva reserva = new Reserva();
+        reserva.setIdReserva(checklist.getIdReserva());
+        checklist.setReserva(reserva);
+        checklistRepo.save(checklist);
+    }
+
+    @Override
+    public void crearCostoReparacion(CostoReparacion costoReparacion) {
+        costoReparacion.setFechaEmision(new Date());
+        Reserva reserva = new Reserva();
+        reserva.setIdReserva(costoReparacion.getIdReserva());
+        costoReparacion.setReserva(reserva);
+        costoReparacionRepo.save(costoReparacion);
+    }
+
+    @Override
+    public List<Reserva> buscarReservasConMultas(Integer idCliente) {
+        return reservaRepo.buscarReservasConMultas(idCliente);
+    }
+
+    @Override
+    public void pagarMulta(BoletaMulta boletaMulta) {
+        boletaMulta.setFechaMulta(new Date());
+        Reserva reserva = new Reserva();
+        reserva.setIdReserva(boletaMulta.getIdReserva());
+        boletaMulta.setReserva(reserva);
+
+        boletaMultaRepo.save(boletaMulta);
     }
 
 }

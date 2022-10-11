@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -41,11 +43,14 @@ public class Checklist {
     @Column(name = "observaciones", nullable = false, length = 300)
     private String observaciones;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_reserva_FK")
     private Reserva reserva;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    private Integer idReserva;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_estado_checklist_FK")
     private EstadoChecklist estadoChecklist;
 
@@ -143,5 +148,17 @@ public class Checklist {
 
     public void setEstadoChecklist(EstadoChecklist estadoChecklist) {
         this.estadoChecklist = estadoChecklist;
+    }
+
+    public Integer getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
     }
 }

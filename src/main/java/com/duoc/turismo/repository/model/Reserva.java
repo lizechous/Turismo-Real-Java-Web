@@ -184,4 +184,8 @@ public class Reserva {
     public void setFechaSalidaString(String fechaSalidaString) {
         this.fechaSalidaString = fechaSalidaString;
     }
+
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
+    }
 }
