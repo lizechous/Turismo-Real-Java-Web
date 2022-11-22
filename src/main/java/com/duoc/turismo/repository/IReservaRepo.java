@@ -35,4 +35,16 @@ public interface IReservaRepo extends JpaRepository<Reserva, Integer> {
                 "where r.id_estado_reserva_FK = 6 and  r.id_cliente_FK=:p_id_cliente", nativeQuery = true)
     List<Reserva> buscarReservasConMultas(@Param("p_id_cliente") Integer idCliente);
 
+    @Query(value =
+        "SELECT r.* FROM mydb.reserva r\n" +
+                "join mydb.departamento d on d.id_departamento = r.id_departamento_FK\n" +
+                "where \n" +
+                "d.comuna =:p_comuna and \n" +
+                "d.region =:p_region and\n" +
+                "r.id_cliente_FK =:p_cliente and \n" +
+                "(r.id_estado_reserva_FK = 1 or r.id_estado_reserva_FK = 6)", nativeQuery = true)
+    List<Reserva> buscarReservasParaUnTour(@Param("p_comuna") String comuna,
+                                           @Param("p_region") String region,
+                                           @Param("p_cliente") Integer idCliente);
+
 }

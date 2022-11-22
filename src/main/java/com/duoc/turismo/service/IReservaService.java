@@ -1,9 +1,6 @@
 package com.duoc.turismo.service;
 
-import com.duoc.turismo.repository.model.BoletaMulta;
-import com.duoc.turismo.repository.model.Checklist;
-import com.duoc.turismo.repository.model.CostoReparacion;
-import com.duoc.turismo.repository.model.Reserva;
+import com.duoc.turismo.repository.model.*;
 
 import java.util.List;
 
@@ -26,5 +23,9 @@ public interface IReservaService {
     List<Reserva> buscarReservasConMultas(Integer idCliente);
 
     void pagarMulta(BoletaMulta boletaMulta);
+
+    List<Reserva> buscarReservasParaUnTour(String comuna, String region, Integer cliente);
+
+    void pagarTour(BoletaServicioExtra boleta);
 
 }

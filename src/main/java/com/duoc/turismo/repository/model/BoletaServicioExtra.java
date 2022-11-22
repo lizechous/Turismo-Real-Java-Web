@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -17,15 +19,18 @@ public class BoletaServicioExtra {
     @Column(name = "cantidad_personas", nullable = false)
     private Integer cantidadPersonas;
 
-    @Column(name = "fecha_hora_inicio", nullable = false)
+    @Column(name = "fecha_hora_inicio", nullable = true)
     private Date fechaHoraInicio;
 
-    @Column(name = "fecha_hora_termino", nullable = false)
+    @Column(name = "fecha_hora_termino", nullable = true)
     private Date fechaHoraTermino;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_reserva_FK")
     private Reserva reserva;
+
+    private Integer idReserva;
 
     @ManyToOne
     @JoinColumn(name = "id_servicio_extra_FK")
@@ -81,5 +86,13 @@ public class BoletaServicioExtra {
 
     public void setServicioExtra(ServicioExtra servicioExtra) {
         this.servicioExtra = servicioExtra;
+    }
+
+    public Integer getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
     }
 }

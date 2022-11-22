@@ -1,10 +1,7 @@
 package com.duoc.turismo.controller;
 
 import com.duoc.turismo.config.exceptions.UsuarioSistemaException;
-import com.duoc.turismo.repository.model.BoletaMulta;
-import com.duoc.turismo.repository.model.Checklist;
-import com.duoc.turismo.repository.model.CostoReparacion;
-import com.duoc.turismo.repository.model.Reserva;
+import com.duoc.turismo.repository.model.*;
 import com.duoc.turismo.service.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -111,6 +108,29 @@ public class ReservaController {
     public ResponseEntity<Void> pagarMulta(@RequestBody BoletaMulta boletaMulta){
         try{
             reservaService.pagarMulta(boletaMulta);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/obtener-reservas-tour", method = RequestMethod.GET)
+    public ResponseEntity<List<Reserva>> buscarReservasTour(@RequestParam String comuna,
+                                                            @RequestParam String region,
+                                                            @RequestParam Integer idCliente) throws UsuarioSistemaException {
+        try{
+            return new ResponseEntity<>(reservaService.buscarReservasParaUnTour(comuna.replace("%20", " "), region.replace("%20", " "), idCliente),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/pagar-tour", method = RequestMethod.POST)
+    public ResponseEntity<Void> pagarTour(@RequestBody BoletaServicioExtra boleta){
+        try{
+            reservaService.pagarTour(boleta);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
