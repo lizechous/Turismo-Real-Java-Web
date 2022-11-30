@@ -34,6 +34,9 @@ public class ReservaServiceImpl implements IReservaService{
     @Autowired
     IBoletaServicioExtraRepo boletaServicioExtraRepo;
 
+    @Autowired
+    ISolicitudServicioExtraRepo solicitudServicioExtraRepo;
+
     @Override
     public Integer reservarDepto(Reserva reserva) {
         BoletaReserva boletaReserva = new BoletaReserva();
@@ -133,11 +136,19 @@ public class ReservaServiceImpl implements IReservaService{
     }
 
     @Override
-    public void pagarTour(BoletaServicioExtra boleta) {
+    public void pagarServicioExtra(SolicitudServicioExtra solicitudServicioExtra) {
         Reserva reserva = new Reserva();
-        reserva.setIdReserva(boleta.getIdReserva());
-        boleta.setReserva(reserva);
-        boletaServicioExtraRepo.save(boleta);
+        reserva.setIdReserva(solicitudServicioExtra.getIdReserva());
+        solicitudServicioExtra.setReserva(reserva);
+        solicitudServicioExtraRepo.save(solicitudServicioExtra);
+    }
+
+    @Override
+    public void solicitarTransporte(SolicitudServicioExtra solicitudServicioExtra){
+        Reserva reserva = new Reserva();
+        reserva.setIdReserva(solicitudServicioExtra.getIdReserva());
+        solicitudServicioExtra.setReserva(reserva);
+        solicitudServicioExtraRepo.save(solicitudServicioExtra);
     }
 
 }

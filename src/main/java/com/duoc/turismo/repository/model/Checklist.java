@@ -16,28 +16,28 @@ public class Checklist {
     @Column(name = "tipo_checklist", nullable = false, length = 10)
     private String tipoChecklist;
 
-    @Column(name = "inspeccion_cocina", nullable = false, length = 15)
+    @Column(name = "inspeccion_cocina", nullable = false, length = 30)
     private String inspeccionCocina;
 
-    @Column(name = "inspeccion_habitaciones", nullable = false, length = 15)
+    @Column(name = "inspeccion_habitaciones", nullable = false, length = 30)
     private String inspeccionHabitaciones;
 
-    @Column(name = "inspeccion_banio", nullable = false, length = 15)
+    @Column(name = "inspeccion_banio", nullable = false, length = 30)
     private String inspeccionBanio;
 
-    @Column(name = "inspeccion_living", nullable = false, length = 15)
+    @Column(name = "inspeccion_living", nullable = false, length = 30)
     private String inspeccionLiving;
 
-    @Column(name = "inspeccion_terraza", nullable = false, length = 15)
+    @Column(name = "inspeccion_terraza", nullable = false, length = 30)
     private String inspeccionTerraza;
 
-    @Column(name = "agua_caliente", nullable = false, length = 15)
+    @Column(name = "agua_caliente", nullable = false, length = 30)
     private String aguaCaliente;
 
-    @Column(name = "luz", nullable = false, length = 15)
+    @Column(name = "luz", nullable = false, length = 30)
     private String luz;
 
-    @Column(name = "refrigerador", nullable = false, length = 15)
+    @Column(name = "refrigerador", nullable = false, length = 30)
     private String refrigerador;
 
     @Column(name = "observaciones", nullable = false, length = 300)

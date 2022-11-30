@@ -1,6 +1,7 @@
 package com.duoc.turismo.service;
 
 import com.duoc.turismo.config.exceptions.ServicioExtraException;
+import com.duoc.turismo.repository.model.SolicitudServicioExtra;
 import com.duoc.turismo.repository.model.Tour;
 import com.duoc.turismo.repository.model.Transporte;
 
@@ -25,7 +26,7 @@ public interface IServicioExtraService {
     List<Tour> findByRegionAndComunaTour(String region, String comuna) throws ServicioExtraException;
 
     //BUSCAR TRANSPORTE POR REGION Y COMUNA
-    List<Transporte> findByRegionAndComunaTransporte(String region, String comuna) throws ServicioExtraException;
+    List<Transporte> findByRegionAndComunaTransporte(String region, String comuna, Integer personas) throws ServicioExtraException;
 
     //Eliminar tour
     Boolean cambiarEstadoTour(Integer idTour, Boolean estado) throws ServicioExtraException;
@@ -52,5 +53,13 @@ public interface IServicioExtraService {
     Transporte buscarTransportePorId(Integer id) throws ServicioExtraException;
 
     void actualizarFotos(Tour tour) throws ServicioExtraException;
+
+    List<SolicitudServicioExtra> buscarSolicitudes();
+
+    List<SolicitudServicioExtra> buscarSolicitudesCliente(Integer idCliente);
+
+    void planificarServicio(SolicitudServicioExtra solicitud);
+
+    SolicitudServicioExtra buscarSolicitud(Integer id);
 
 }

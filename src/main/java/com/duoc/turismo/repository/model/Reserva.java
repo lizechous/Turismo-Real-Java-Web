@@ -41,7 +41,7 @@ public class Reserva {
     private List<BoletaReserva> boletaReservaList;
 
     @OneToMany(mappedBy = "reserva")
-    private List<BoletaServicioExtra> boletaServicioExtraList;
+    private List<SolicitudServicioExtra> solicitudServicioExtras;
 
     @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)
     private List<Checklist> checklistList;
@@ -121,14 +121,6 @@ public class Reserva {
         this.boletaReservaList = boletaReservaList;
     }
 
-    public List<BoletaServicioExtra> getBoletaServicioExtraList() {
-        return boletaServicioExtraList;
-    }
-
-    public void setBoletaServicioExtraList(List<BoletaServicioExtra> boletaServicioExtraList) {
-        this.boletaServicioExtraList = boletaServicioExtraList;
-    }
-
     public List<Checklist> getChecklistList() {
         return checklistList;
     }
@@ -187,5 +179,9 @@ public class Reserva {
 
     public void setIdReserva(Integer idReserva) {
         this.idReserva = idReserva;
+    }
+
+    public List<SolicitudServicioExtra> getSolicitudServicioExtras() {
+        return solicitudServicioExtras;
     }
 }

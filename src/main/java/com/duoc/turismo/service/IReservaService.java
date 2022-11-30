@@ -26,6 +26,7 @@ public interface IReservaService {
 
     List<Reserva> buscarReservasParaUnTour(String comuna, String region, Integer cliente);
 
-    void pagarTour(BoletaServicioExtra boleta);
+    void pagarServicioExtra(SolicitudServicioExtra solicitudServicioExtra);
 
+    void solicitarTransporte(SolicitudServicioExtra solicitudServicioExtra);
 }

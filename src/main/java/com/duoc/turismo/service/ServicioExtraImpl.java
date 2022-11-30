@@ -2,6 +2,7 @@ package com.duoc.turismo.service;
 
 import com.duoc.turismo.config.exceptions.ServicioExtraException;
 import com.duoc.turismo.repository.IFotoTourRepo;
+import com.duoc.turismo.repository.ISolicitudServicioExtraRepo;
 import com.duoc.turismo.repository.ITourRepo;
 import com.duoc.turismo.repository.ITransporteRepo;
 import com.duoc.turismo.repository.model.*;
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ServicioExtraImpl implements IServicioExtraService {
@@ -25,6 +26,9 @@ public class ServicioExtraImpl implements IServicioExtraService {
 
     @Autowired
     IFotoTourRepo iFotoTourRepo;
+
+    @Autowired
+    ISolicitudServicioExtraRepo solicitudServicioExtraRepo;
 
     //CREAR TOUR
     @Override
@@ -94,9 +98,10 @@ public class ServicioExtraImpl implements IServicioExtraService {
     }
 
     @Override
-    public List<Transporte> findByRegionAndComunaTransporte(String region, String comuna) throws ServicioExtraException {
+    public List<Transporte> findByRegionAndComunaTransporte(String region, String comuna, Integer personas) throws ServicioExtraException {
         try{
-            return iTransporteRepo.findByRegionAndComunaAndEstado(region, comuna, true);
+            List<Transporte> lista = iTransporteRepo.findByRegionAndComunaAndEstado(region, comuna, true);
+            return personas == null ? lista : lista.stream().filter(t -> Integer.parseInt(t.getCapacidadPasajeros()) >= personas).collect(Collectors.toList());
         }catch (Exception e){
             throw new ServicioExtraException("Error al buscar transporte");
         }
@@ -224,5 +229,27 @@ public class ServicioExtraImpl implements IServicioExtraService {
         }
     }
 
+    @Override
+    public List<SolicitudServicioExtra> buscarSolicitudes() {
+        return solicitudServicioExtraRepo.buscarSolicitudes();
+    }
+
+    @Override
+    public List<SolicitudServicioExtra> buscarSolicitudesCliente(Integer idCliente) {
+        return solicitudServicioExtraRepo.buscarSolicitudesCliente(idCliente);
+    }
+
+    @Override
+    public void planificarServicio(SolicitudServicioExtra solicitud) {
+        Reserva reserva = new Reserva();
+        reserva.setIdReserva(solicitud.getIdReserva());
+        solicitud.setReserva(reserva);
+        solicitudServicioExtraRepo.save(solicitud);
+    }
+
+    @Override
+    public SolicitudServicioExtra buscarSolicitud(Integer id) {
+        return solicitudServicioExtraRepo.findByIdSolicitud(id);
+    }
 
 }

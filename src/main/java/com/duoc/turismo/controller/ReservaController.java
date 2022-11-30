@@ -127,10 +127,21 @@ public class ReservaController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/pagar-tour", method = RequestMethod.POST)
-    public ResponseEntity<Void> pagarTour(@RequestBody BoletaServicioExtra boleta){
+    @RequestMapping(value = "/pagar-servicio", method = RequestMethod.POST)
+    public ResponseEntity<Void> pagarServicio(@RequestBody SolicitudServicioExtra solicitud){
         try{
-            reservaService.pagarTour(boleta);
+            reservaService.pagarServicioExtra(solicitud);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/solicitar-transporte", method = RequestMethod.POST)
+    public ResponseEntity<Void> solicitarTransporte(@RequestBody SolicitudServicioExtra solicitud){
+        try{
+            reservaService.solicitarTransporte(solicitud);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

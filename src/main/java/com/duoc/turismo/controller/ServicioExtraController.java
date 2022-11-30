@@ -1,9 +1,7 @@
 package com.duoc.turismo.controller;
 
 import com.duoc.turismo.config.exceptions.ServicioExtraException;
-import com.duoc.turismo.repository.model.Departamento;
-import com.duoc.turismo.repository.model.Tour;
-import com.duoc.turismo.repository.model.Transporte;
+import com.duoc.turismo.repository.model.*;
 import com.duoc.turismo.service.IServicioExtraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +22,7 @@ public class ServicioExtraController {
     @RequestMapping(value = "/crear-servicio-extra-tour", method = RequestMethod.POST)
     public ResponseEntity<Boolean> saveTour(@RequestBody Tour tour) throws ServicioExtraException {
         try{
-            return new ResponseEntity<>(iServicioExtraService.saveTour(tour), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(iServicioExtraService.saveTour(tour), HttpStatus.OK);
         }catch (ServicioExtraException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -35,7 +33,7 @@ public class ServicioExtraController {
     @RequestMapping(value = "/crear-servicio-extra-transporte", method = RequestMethod.POST)
     public ResponseEntity<Boolean> saveTransporte(@RequestBody Transporte transporte){
         try {
-            return new ResponseEntity<>(iServicioExtraService.saveTransporte(transporte), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(iServicioExtraService.saveTransporte(transporte), HttpStatus.OK);
         }catch (ServicioExtraException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -88,9 +86,9 @@ public class ServicioExtraController {
     //Buscar transporte por region y comuna
     @CrossOrigin
     @RequestMapping(value = "/listar-transporte-region-comuna", method = RequestMethod.GET)
-    public ResponseEntity<List> findByRegionAndComunaTransporte(String region, String comuna){
+    public ResponseEntity<List> findByRegionAndComunaTransporte(String region, String comuna, @RequestParam(required = false) Integer personas){
        try{
-           return new ResponseEntity<>(iServicioExtraService.findByRegionAndComunaTransporte(region, comuna), HttpStatus.OK);
+           return new ResponseEntity<>(iServicioExtraService.findByRegionAndComunaTransporte(region, comuna, personas), HttpStatus.OK);
        }catch (ServicioExtraException e){
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
        }
@@ -193,6 +191,42 @@ public class ServicioExtraController {
     @RequestMapping(value = "/actualizar-fotos", method = RequestMethod.POST)
     public void actualizarFotos(@RequestBody Tour tourRequest) throws ServicioExtraException {
         iServicioExtraService.actualizarFotos(tourRequest);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/buscar-solicitudes", method = RequestMethod.GET)
+    public ResponseEntity<List<SolicitudServicioExtra>> buscarSolicitudes(){
+        try{
+            return new ResponseEntity<>(iServicioExtraService.buscarSolicitudes(), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/buscar-solicitudes-cliente", method = RequestMethod.GET)
+    public ResponseEntity<List<SolicitudServicioExtra>> buscarSolicitudesCliente(@RequestParam Integer id){
+        try{
+            return new ResponseEntity<>(iServicioExtraService.buscarSolicitudesCliente(id), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/buscar-solicitud", method = RequestMethod.GET)
+    public ResponseEntity<SolicitudServicioExtra> buscarSolicitud(@RequestParam Integer id){
+        try{
+            return new ResponseEntity<>(iServicioExtraService.buscarSolicitud(id), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/planificar-servicio", method = RequestMethod.POST)
+    public void planificarServicio(@RequestBody SolicitudServicioExtra request) throws ServicioExtraException {
+        iServicioExtraService.planificarServicio(request);
     }
 
 }

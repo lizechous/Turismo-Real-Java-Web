@@ -19,6 +19,17 @@ public class Transporte extends ServicioExtra implements Serializable {
     @Column(name = "patente", nullable = false, length = 8)
     private String patente;
 
+    @Column(name = "tarifa", nullable = false, length = 8)
+    private Integer tarifa;
+
+    public Integer getTarifa() {
+        return tarifa;
+    }
+
+    public void setTarifa(Integer tarifa) {
+        this.tarifa = tarifa;
+    }
+
     public String getModelo() {
         return modelo;
     }

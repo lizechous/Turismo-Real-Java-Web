@@ -25,8 +25,19 @@ public class ServicioExtra implements Serializable {
     @Column(name = "estado", length = 45)
     protected Boolean estado;
 
+    @Column(name = "telefono", length = 9)
+    protected Integer telefono;
+
     @OneToMany(mappedBy = "servicioExtra", cascade = CascadeType.ALL)
     private List<FotoTour> fotoTourList;
+
+    public Integer getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(Integer telefono) {
+        this.telefono = telefono;
+    }
 
     public Integer getIdServicioExtra() {
         return idServicioExtra;
