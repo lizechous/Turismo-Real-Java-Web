@@ -1,8 +1,5 @@
 package com.duoc.turismo.repository;
 
-import com.duoc.turismo.repository.model.Comuna;
-import com.duoc.turismo.repository.model.Departamento;
-import com.duoc.turismo.repository.model.ServicioExtra;
 import com.duoc.turismo.repository.model.Tour;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,8 +11,13 @@ import java.util.List;
 @Repository
 public interface ITourRepo extends JpaRepository<Tour, Integer> {
 
-    //propio de jpa
-    List<Tour> findByRegionAndComunaAndEstado(String region, String comuna, Boolean estado);
+
+    @Query(value = "select t.*,s.* from mydb.tour t\n" +
+            "join mydb.servicio_extra s on s.id_servicio_extra = t.id_servicio_extra_FK "+
+            "where s.estado = 1\n" +
+            "and (:p_region = 'Cualquiera' or s.region =:p_region)\n" +
+            "and (:p_comuna = 'Cualquiera' or s.comuna =:p_comuna)", nativeQuery = true)
+    List<Tour> buscarToursRegionComuna(@Param("p_region") String region, @Param("p_comuna") String comuna);
 
     Tour findByIdServicioExtra(Integer idServicio);
 

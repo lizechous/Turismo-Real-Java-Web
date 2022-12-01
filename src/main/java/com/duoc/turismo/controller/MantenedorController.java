@@ -2,14 +2,13 @@ package com.duoc.turismo.controller;
 
 //AQUI VAN TODOS LOS CRUD QUE SIMPLES QUE SOLO AFECTAN A UNA TABLA PARTICULAR
 
-import com.duoc.turismo.repository.model.Comuna;
-import com.duoc.turismo.repository.model.CondicionesDeUso;
-import com.duoc.turismo.repository.model.Region;
-import com.duoc.turismo.repository.model.ServicioDepto;
+import com.duoc.turismo.repository.model.*;
 import com.duoc.turismo.service.ICondicionesDeUsoService;
 import com.duoc.turismo.service.IMantenedorService;
 import com.duoc.turismo.service.IServicioDeptoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -84,4 +83,50 @@ public class MantenedorController {
     @CrossOrigin
     @RequestMapping(value = "/listar-regiones", method = RequestMethod.GET)
     public List<Region> listarRegiones() {return  mantenedorService.findByAllRegion();}
+
+    @CrossOrigin
+    @RequestMapping(value = "/nueva-mantencion", method = RequestMethod.POST)
+    public ResponseEntity<Void> nuevaMantencion(@RequestBody Mantencion mantencion){
+        try{
+            mantenedorService.crearMantencion(mantencion);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/buscar-mantenciones-depto", method = RequestMethod.GET)
+    public List<Mantencion> buscarMantencionesDepto(@RequestParam Integer id) {
+        return mantenedorService.buscarMantencionesDepto(id);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/buscar-mantencion", method = RequestMethod.GET)
+    public Mantencion buscarMantencioneId(@RequestParam Integer id) {
+        return mantenedorService.buscarMantencionId(id);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/modificar-fotos-mantencion", method = RequestMethod.POST)
+    public ResponseEntity<Void> modificarFotosMantencion(@RequestBody Mantencion mantencion){
+        try{
+            mantenedorService.modificarFotosMantencion(mantencion);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/modificar-datos-mantencion", method = RequestMethod.POST)
+    public ResponseEntity<Void> modificarDatosMantencion(@RequestBody Mantencion mantencion){
+        try{
+            mantenedorService.modificarMantencion(mantencion);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

@@ -97,9 +97,10 @@ public class ServicioExtraController {
     //Buscar tour por region y comuna
     @CrossOrigin
     @RequestMapping(value = "/listar-tour-region-comuna", method = RequestMethod.GET)
-    public ResponseEntity<List> findByRegionAndComunaTour(String region, String comuna){
+    public ResponseEntity<List> findByRegionAndComunaTour(String region,
+                                                          String comuna){
         try{
-            return new ResponseEntity<>(iServicioExtraService.findByRegionAndComunaTour(region, comuna), HttpStatus.OK);
+            return new ResponseEntity<>(iServicioExtraService.findByRegionAndComunaTour(region.replace("%20", " "), comuna.replace("%20", " ")), HttpStatus.OK);
         }catch (ServicioExtraException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

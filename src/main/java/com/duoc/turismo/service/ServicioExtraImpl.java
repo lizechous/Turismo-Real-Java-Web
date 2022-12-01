@@ -1,10 +1,7 @@
 package com.duoc.turismo.service;
 
 import com.duoc.turismo.config.exceptions.ServicioExtraException;
-import com.duoc.turismo.repository.IFotoTourRepo;
-import com.duoc.turismo.repository.ISolicitudServicioExtraRepo;
-import com.duoc.turismo.repository.ITourRepo;
-import com.duoc.turismo.repository.ITransporteRepo;
+import com.duoc.turismo.repository.*;
 import com.duoc.turismo.repository.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +26,9 @@ public class ServicioExtraImpl implements IServicioExtraService {
 
     @Autowired
     ISolicitudServicioExtraRepo solicitudServicioExtraRepo;
+
+    @Autowired
+    IServicioExtraRepo servicioExtraRepo;
 
     //CREAR TOUR
     @Override
@@ -91,7 +91,7 @@ public class ServicioExtraImpl implements IServicioExtraService {
     @Override
     public List<Tour> findByRegionAndComunaTour(String region, String comuna) throws ServicioExtraException {
         try{
-            return iTourRepo.findByRegionAndComunaAndEstado(region,comuna,true);
+            return iTourRepo.buscarToursRegionComuna(region,comuna);
         }catch (Exception e){
             throw new ServicioExtraException("Error al buscar tour");
         }

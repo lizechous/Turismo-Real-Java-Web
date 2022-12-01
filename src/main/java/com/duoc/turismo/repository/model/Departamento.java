@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -62,6 +63,34 @@ public class Departamento {
 
     @ManyToMany(mappedBy = "departamentoList")
     private List<CondicionesDeUso> condicionesDeUsoList;
+
+    @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL)
+    private List<Mantencion> mantencionList;
+
+    @Transient
+    private Boolean enMantencion;
+
+    private Boolean fechaEnRango(Date fecha, Date fechaInicio, Date fechaFin){
+        return fecha.after(fechaInicio) && fecha.before(fechaFin);
+    }
+
+    public Boolean getEnMantencion() {
+        for(Mantencion mantencion: this.mantencionList){
+            if(fechaEnRango(new Date(), mantencion.getFechaInicio(), mantencion.getFechaTermino())
+                    && mantencion.getEstado().equalsIgnoreCase("en curso")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Mantencion> getMantencionList() {
+        return mantencionList;
+    }
+
+    public void setMantencionList(List<Mantencion> mantencionList) {
+        this.mantencionList = mantencionList;
+    }
 
     public Integer getIdDepartamento() {
         return idDepartamento;

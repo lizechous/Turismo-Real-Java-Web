@@ -1,5 +1,7 @@
 package com.duoc.turismo.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -26,9 +28,47 @@ public class Mantencion{
     @Column(name = "presupuesto", nullable = false)
     private Integer presupuesto;
 
+    @Column(name = "estado", nullable = false)
+    private String estado;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_departamento_FK")
     private Departamento departamento;
+
+    @Transient
+    private Integer idDepartamento;
+
+    @OneToMany(mappedBy = "mantencion", cascade = CascadeType.ALL)
+    private List<FotoMantencion> fotoMantencionList;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
+
+    public Integer getIdDepartamento() {
+        return idDepartamento;
+    }
+
+    public void setIdDepartamento(Integer idDepartamento) {
+        this.idDepartamento = idDepartamento;
+    }
+
+    public List<FotoMantencion> getFotoMantencionList() {
+        return fotoMantencionList;
+    }
+
+    public void setFotoMantencionList(List<FotoMantencion> fotoMantencionList) {
+        this.fotoMantencionList = fotoMantencionList;
+    }
 
     public Integer getIdMantencion() {
         return idMantencion;
